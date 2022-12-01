@@ -8,6 +8,7 @@ import Hotel from "./pages/hotel/Hotel";
 import List from "./pages/list/List";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/register";
+import Reserve from "./components/reserve/Reserve.jsx";
 
 function App() {
   return (
