@@ -35,7 +35,6 @@ const Hotel = () => {
         const response = await axios.get(`/hotels/room/${id}`, {
         });
         setRooms(response.data)
-        console.log("rooms",response.data)
       } catch (e) {
         throw new Error();
       }
@@ -45,7 +44,6 @@ const Hotel = () => {
         const response = await axios.get(`/hotels/find/${id}`, {
         });
         setData(response.data)
-        console.log("hotel",response.data)
       } catch (e) {
         throw new Error();
       }
@@ -157,7 +155,7 @@ const Hotel = () => {
               <span>{data.address}</span>
             </div>
             {/* roomCard */}
-            <RoomCard data={rooms}/>
+            <RoomCard data={rooms} dataHotel={data}/>
             <br/>
             <span className="hotelDistance">
               Excellent location – {data.distance}m from center

@@ -14,16 +14,18 @@
     background-color: white;
     padding: 20px;
     margin: 8px;
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     position: relative;
   }
   
   .rClose {
     position: absolute;
-    top: 0;
-    right: 0;
+    top: 5px;
+    right: 5px;
     cursor: pointer;
+    width: 30px;
+    height: 30px;
   }
   
   .rItem {
@@ -31,6 +33,7 @@
     align-items: center;
     gap: 50px;
     padding: 20px;
+    margin: 16px;
   }
   
   .rInfo {
