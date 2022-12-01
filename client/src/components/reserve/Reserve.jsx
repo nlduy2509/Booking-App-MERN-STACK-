@@ -3,16 +3,40 @@ import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 
 import "./Reserve.css";
 import useFetch from "../../hooks/useFetch";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { SearchContext } from "../../context/SearchContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const Reserve = ({ setOpen, hotelId }) => {
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import MenuItem from '@mui/material/MenuItem';
+
+const Reserve = ({ setOpen, room }) => {
+  const data = room
+
+  // const [open, setOpen] = React.useState(false);
+  const [age, setAge] = useState('');
+
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
+
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
+
   const [selectedRooms, setSelectedRooms] = useState([]);
-  const { data, loading, error } = useFetch(`/hotels/room/${hotelId}`);
+  //const { data, loading, error } = useFetch(`/hotels/room/${hotelId}`);
   const { dates } = useContext(SearchContext);
 
+ 
   const getDatesInRange = (startDate, endDate) => {
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -49,7 +73,7 @@ const Reserve = ({ setOpen, hotelId }) => {
     );
   };
 
-  console.log(selectedRooms)
+  console.log("data",data)
 
   const navigate = useNavigate();
 
@@ -67,6 +91,7 @@ const Reserve = ({ setOpen, hotelId }) => {
       navigate("/");
     } catch (err) {}
   };
+  const [numberRoom,setNumberRom]=useState([[]])
   return (
     <div className="reserve">
       <div className="rContainer">
@@ -76,6 +101,7 @@ const Reserve = ({ setOpen, hotelId }) => {
           onClick={() => setOpen(false)}
         />
         <span>Select your rooms:</span>
+        
         {data.map((item) => (
           <div className="rItem" key={item._id}>
             <div className="rItemInfo">
@@ -87,7 +113,23 @@ const Reserve = ({ setOpen, hotelId }) => {
               <div className="rPrice">{item.price}</div>
             </div>
             <div className="rSelectRooms">
-              {item.roomNumbers.map((roomNumber) => (
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+        <InputLabel id="demo-controlled-open-select-label">Phòng</InputLabel>
+        <Select
+          labelId="demo-controlled-open-select-label"
+          id="demo-controlled-open-select"
+          value={age}
+          label="Age"
+          onChange={handleChange}
+        >
+          {item.roomNumbers.map((e,i)=>(
+            (<MenuItem value={i}>
+              {e.number}
+              </MenuItem>)
+          ))}
+        </Select>
+      </FormControl>
+              {/* {item.roomNumbers.map((roomNumber) => (
                 <div className="room">
                   <label>{roomNumber.number}</label>
                   <input
@@ -97,7 +139,7 @@ const Reserve = ({ setOpen, hotelId }) => {
                     disabled={!isAvailable(roomNumber)}
                   />
                 </div>
-              ))}
+              ))} */}
             </div>
           </div>
         ))}

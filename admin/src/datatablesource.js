@@ -1,3 +1,4 @@
+import moment from "moment"
 export const userColumns = [
   { field: "_id", headerName: "ID", width: 250 },
   {
@@ -85,25 +86,66 @@ export const roomColumns = [
 ];
 
 export const reserveColumns = [
-  { field: "_id", headerName: "ID", width: 250 },
+  // { field: "_id", headerName: "ID", width: 250 },
   {
-    field: "user",
-    headerName: "User",
-    width: 230,
-  },
-  {
-    field: "roomid",
-    headerName: "Room ID",
+    field: "nameReservator",
+    headerName: "Tên khách hàng",
     width: 200,
   },
   {
-    field: "startdate",
-    headerName: "Start Day",
+    field: "nameRoom",
+    headerName: "Tên phòng",
+    width: 200,
+  },
+  {
+    field: "numberRoom",
+    headerName: "Số phòng",
     width: 100,
   },
   {
-    field: "enddate",
-    headerName: "End Day",
+    field: "dateCheckIn",
+    headerName: "Từ ngày",
+    valueFormatter: params => 
+     moment(params?.value).format("DD/MM/YYYY"),
+    width: 150,
+  },
+  {
+    field: "dateCheckOut",
+    headerName: "Đến ngày",
+    valueFormatter: params => 
+     moment(params?.value).format("DD/MM/YYYY"),
+    width: 150,
+  },
+  {
+    field: "price",
+    headerName: "Giá",
     width: 100,
+  },
+  {
+    field: "phoneReservator",
+    headerName: "Số điện thoại",
+    width: 150,
+  },
+  {
+    field: "",
+    headerName: "Thành tiền",
+    width: 150,
+    renderCell: (params) => {
+
+      const dateIn = moment(params.row.dateCheckIn).format("DD")
+      const MonthIn = moment(params.row.dateCheckIn).format("MM")
+      const dateOut = moment(params.row.dateCheckOut).format("DD")
+      const MonthOut = moment(params.row.dateCheckOut).format("MM")
+      if(MonthOut>MonthIn){
+        return (
+          `${params.row.price * dateOut+30-dateIn||0}.000 VNĐ`
+        );
+      }else{
+        return (
+          `${params.row.price * dateOut-dateIn+1||0}.000 VNĐ`
+        );
+      }
+      
+    },
   },
 ];

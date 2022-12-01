@@ -3,19 +3,29 @@ import { DataGrid } from "@mui/x-data-grid";
 import { userColumns, userRows } from "../../datatablesource";
 import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
-import useFetch from "../../hooks/useFetch"
 import { useEffect } from "react";
 import axios from "axios";
+import moment from "moment";
 
 const Datatable = ({columns}) => {
   const location = useLocation()
   const path = location.pathname.split("/")[1]
   const [List, setList] = useState();
-  const {data, loading, error} = useFetch(`/${path}`)
 
   useEffect(()=>{
-    setList(data)
-  },[data])
+    const fetchData = async()=>{
+      try {
+        const response = await axios.get(`/${path}`, {
+        });
+        setList(response.data)
+      } catch (e) {
+        throw new Error();
+      }
+    }
+    fetchData()
+    
+
+  },[path])
 
   const handleDelete = async (id) => {
     try{
@@ -32,7 +42,6 @@ const Datatable = ({columns}) => {
       headerName: "Action",
       width: 200,
       renderCell: (params) => {
-        console.log(params)
         return (
           <div className="cellAction">
             <Link to="/users/test" style={{ textDecoration: "none" }}>
@@ -49,6 +58,7 @@ const Datatable = ({columns}) => {
       },
     },
   ];
+
 
   return (
     <div className="datatable">

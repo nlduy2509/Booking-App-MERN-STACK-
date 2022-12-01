@@ -94,7 +94,7 @@ function App() {
                 }
               />
             </Route>
-            <Route path="reserve">
+            <Route path="reservations">
               <Route
                 index
                 element={
