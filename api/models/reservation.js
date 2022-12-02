@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 const {Schema} = mongoose
 
 const ReservationSchema = new mongoose.Schema({
+    idUser:{
+        type: String,
+        required:true
+    },
     nameReservator:{
         type: String,
         required:true

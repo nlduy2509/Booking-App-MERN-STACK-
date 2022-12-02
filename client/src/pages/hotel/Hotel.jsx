@@ -20,12 +20,15 @@ import axios from "axios";
 import RoomCard from "../rooms/room.jsx"
 
 const Hotel = () => {
+  
   const location = useLocation()
   const id = location.pathname.split("/")[2]
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
   const [rooms, setRooms] = useState([]);
   const [data, setData] = useState([]);
+  const [dates,setDates]= useState(location.state.dates)
+  
 
   //const {data, loading, error} = useFetch(`/hotels/find/${id}`)
 
@@ -155,7 +158,7 @@ const Hotel = () => {
               <span>{data.address}</span>
             </div>
             {/* roomCard */}
-            <RoomCard data={rooms} dataHotel={data}/>
+            <RoomCard data={rooms} dataHotel={data} dates={dates}/>
             <br/>
             <span className="hotelDistance">
               Excellent location – {data.distance}m from center
