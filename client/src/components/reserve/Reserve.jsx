@@ -202,8 +202,12 @@ export default function Reservation(props) {
                     <h3>Tổng tiền: {total}</h3>
                   </div>
                 </form>
+                <div style={{display:'flex',justifyContent:'flex-end', margin:"0 8px 8px 0"}}>
+                  
+                <button className="buttonCF" onClick={handleClickConfirm}>Xác nhận</button>
+                  </div>
+                
               </div>
-                <button className="" onClick={handleClickConfirm}>Xác nhận</button>
             </div>
           </div>
         </div>
