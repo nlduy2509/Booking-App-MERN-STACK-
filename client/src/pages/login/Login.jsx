@@ -29,6 +29,9 @@ const Login = () => {
       dispatch({ type: "LOGIN_FAILURE", payload: err.response.data });
     }
   };
+  const handleOnlickGoogle=()=>{
+    window.open("http://localhost:8800/api/users/google","_seff")
+  }
 
   return (
     <div className="login">
@@ -52,6 +55,9 @@ const Login = () => {
         <button disabled={loading} onClick={handleClick} className="lButton">
           Login
         </button>
+        <div>
+          <img onClick={handleOnlickGoogle} style={{height:"30px", width:"30px",margin:"16px",cursor:"pointer"}} src="https://theme.hstatic.net/200000118173/1000809265/14/icon-gg__login.png?v=283"/>
+        </div>
         <span>You are not a member? <a href="/register"> Sign up</a> </span>
         {error && <span>{error.message}</span>}
       </div>

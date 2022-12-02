@@ -92,7 +92,8 @@ const RoomCard = (props) => {
                   Giá : {e.price}.000 VNĐ
                 </Typography>
               </CardContent>
-              <CardActions sx={{justifyContent: "center"}} onClick={() => handleOnclickReserve(e)}>
+              <CardActions sx={{justifyContent: "center"
+            }} onClick={() => handleOnclickReserve(e)}>
                   <Button
                     sx={{
                       justifyContent:"center",
