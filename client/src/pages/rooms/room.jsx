@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { Alert, Stack } from '@mui/material';
 
 import Snackbar from '@mui/material/Snackbar';
+import { AuthContext } from "../../context/AuthContext";
 
 import "./room.css";
 
@@ -21,22 +22,28 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import MenuItem from '@mui/material/MenuItem';
 import { margin } from '@mui/system';
 
-import { useNavigate } from "react-router-dom";
+import { BrowserRouter, useNavigate } from "react-router-dom";
+import {useContext} from "react"
 import Reservation from '../../components/reserve/Reserve';
 
 const RoomCard=(props)=> {
+  const {user} = useContext(AuthContext);
   const [openModal, setOpenModal] = useState(false);
   const [open, setOpen] = useState(false);
   const [room,setRoom]= useState([])
   const [numberRoom, setNumberRoom] = useState('');
   const [dataReserve,setDataReserve]=useState([])
-  const {data,dataHotel}= props
+  const {data,dataHotel,dates}= props
 
   const navigate = useNavigate()
 
   const handleOnclickReserve=(data)=>{
-    setOpenModal(true)
-    setRoom(data)
+    if(!user){
+      navigate("/login")
+    }else{
+      setOpenModal(true)
+      setRoom(data)
+    }
   }
   const handleChange = (event) => {
     setNumberRoom(event.target.value);
@@ -45,11 +52,13 @@ const RoomCard=(props)=> {
   const handleClick = () => {
 
     if(numberRoom.length===0){
-      console.log("Chuw")
+      console.log("Chưa có phòng")
     }else{
       const newDataReserve = [dataHotel]
       newDataReserve.push(room)
       newDataReserve.push(numberRoom)
+      newDataReserve.push(dates)
+      newDataReserve.push(user)
       setDataReserve(newDataReserve);
       setOpen(true)
     }
@@ -58,7 +67,6 @@ const RoomCard=(props)=> {
     setOpenModal(false)
     setNumberRoom([])
   }
-  console.log("hotel",data)
   return (
     <Stack direction="row" spacing={3}>
       {
@@ -135,12 +143,12 @@ const RoomCard=(props)=> {
             </div>
           </div>
         <button onClick={handleClick} className="rButton">
-          Reserve Now!
+          Chọn
         </button>
       </div>
     </div>}
 
-    {open && <Reservation dataReserve={dataReserve} open={open} setOpen={setOpen}/>}
+    {open && <Reservation dataReserve={dataReserve} open={open} setOpen={setOpen} setOpenModal={setOpenModal}/>}
 
     { openModal &&  numberRoom.length===0  &&  <Snackbar anchorOrigin={{vertical: 'top',horizontal: 'center'}} open={true} autoHideDuration={2000}>
         <Alert  severity="warning" sx={{ width: '100%' }}>

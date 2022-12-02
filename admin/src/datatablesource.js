@@ -132,17 +132,17 @@ export const reserveColumns = [
     width: 150,
     renderCell: (params) => {
 
-      const dateIn = moment(params.row.dateCheckIn).format("DD")
-      const MonthIn = moment(params.row.dateCheckIn).format("MM")
-      const dateOut = moment(params.row.dateCheckOut).format("DD")
-      const MonthOut = moment(params.row.dateCheckOut).format("MM")
+      const dateIn = moment(params.row.dateCheckIn).format("D")
+      const MonthIn = moment(params.row.dateCheckIn).format("M")
+      const dateOut = moment(params.row.dateCheckOut).format("D")
+      const MonthOut = moment(params.row.dateCheckOut).format("M")
       if(MonthOut>MonthIn){
         return (
-          `${params.row.price * dateOut+30-dateIn||0}.000 VNĐ`
+          `${params.row.price * (dateOut+30-dateIn+1)||0}.000 VNĐ`
         );
       }else{
         return (
-          `${params.row.price * dateOut-dateIn+1||0}.000 VNĐ`
+          `${params.row.price * (dateOut-dateIn+1)||0}.000 VNĐ`
         );
       }
       

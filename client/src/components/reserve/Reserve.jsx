@@ -1,32 +1,82 @@
-import "./Reserve.scss"
+import "./Reserve.scss";
+import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
-import {
-  Backdrop,
-  Card,
-  Grid,
-  Modal,
-} from '@mui/material';
+import { Alert, Backdrop, Card, Grid, Modal } from "@mui/material";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
 // ----------------------------------------------------------------------
 
-
-
 export default function Reservation(props) {
-  const {open,setOpen, dataReserve} = props
-  console.log("props",props)
+  const { open, setOpen, dataReserve, setOpenModal } = props;
+  const [total, setTotal] = useState("");
+  const [check, setCheck] = useState(false);
+  const [dateFromTo, setDateFromTo] = useState([]);
+  const navigate = useNavigate();
 
-  const handleClick = async (e) => {
-    // e.preventDefault(); 
-    // const roomNumbers = rooms.split(",").map((room) => ({ number: room }));
-    // try {
-    //   await axios.post(`/rooms/${hotelId}`, { ...info, roomNumbers });
-    //   alert("Successfully")
-    // } catch (err) {
-    //   console.log(err);
-    // }
+  const handleClickConfirm = async () => {
+    const body = {
+      idUser:dataReserve[4]._id,
+      nameReservator: dataReserve[4].fullName,
+      phoneReservator: dataReserve[4].phone,
+      mailReservator: dataReserve[4].email,
+      idHotel: dataReserve[0]._id,
+      nameHotel: dataReserve[0].name,
+      address: dataReserve[0].address,
+      idRoom: dataReserve[1]._id,
+      nameRoom: dataReserve[1].title,
+      price: dataReserve[1].price,
+      dateCheckIn: dataReserve[3][0].startDate,
+      dateCheckOut: dataReserve[3][0].endDate,
+      idNumberRoom: dataReserve[2]._id,
+      numberRoom: dataReserve[2].number,
+    };
+    try {
+      const res = await axios.post(
+        `/reservations/create/${dataReserve[4]._id}`,
+        body
+      );
+      if (res.status === 200) {
+        try {
+          await axios.put(`/rooms/availability/${dataReserve[2]._id}`,{
+            dates:dateFromTo
+          })
+        } catch (error) {
+          return error
+        }
+        setCheck(true);
+        setTimeout(() => {
+          setOpen(false);
+          setOpenModal(false);
+        }, 3000);
+      }
+    } catch (error) {
+      return error;
+    }
   };
-  console.log('aaaa',dataReserve)
+  console.log("dataReserve",dataReserve);
+  useEffect(() => {
+    const dateIn = moment(dataReserve[3][0].startDate).format("D");
+    const MonthIn = moment(dataReserve[3][0].startDate).format("M");
+    const dateOut = moment(dataReserve[3][0].endDate).format("D");
+    const MonthOut = moment(dataReserve[3][0].endDate).format("M");
+    const Year = moment(dataReserve[3][0].endDate).format("YYYY");
 
+
+    if (MonthOut > MonthIn) {
+      setTotal(`${dataReserve[1].price * (dateOut + 30 - dateIn + 1)}.000 VNĐ`);
+    } else {
+      const DFT = [];
+      for (let i = parseInt(dateIn); i <= parseInt(dateOut); i++) {
+        DFT.push(`${i}/${MonthIn}/${Year}`);
+      }
+      setDateFromTo(DFT);
+      setTotal(`${dataReserve[1].price * (dateOut - dateIn + 1)}.000 VNĐ`);
+    }
+  }, []);
+  console.log("dateFromTo",dateFromTo);
   return (
     <Modal
       aria-labelledby="edit-modal-title"
@@ -39,91 +89,135 @@ export default function Reservation(props) {
     >
       <Card
         sx={{
-          position: 'absolute',
-          width: '50vw',
-          height: '50vh',   
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
+          position: "absolute",
+          width: "70vw",
+          height: "70vh",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
         }}
       >
         <div className="new">
-      <div className="newContainer">
-        <div className="top">
-          <h1>Tạo mới đặt chỗ</h1>
-          <FontAwesomeIcon
-          icon={faCircleXmark}
-          className="rClose"
-          onClick={() => setOpen(false)}
-        />
-        </div>
-        <div className="bottom">
-          <div className="right">
-            <form>
-            <div className="formInput">
-                  <label>Tên</label>
-                  <input
-                    type="input"
-                    placeholder="Vui lòng nhập tên.."
-                    onChange={()=>{}}
-                  />
-                </div>
-            <div className="formInput">
-                  <label>Số điện thoại</label>
-                  <input
-                  required = "true"
-                    type="input"
-                    placeholder="Vui lòng nhập số điện thoại"
-                    onChange={()=>{}}
-                  />
-                </div>
-            <div className="formInput">
-                  <label>Email</label>
-                  <input
-                    type="input"
-                    placeholder="abc@gmail.com"
-                    onChange={()=>{}}
-                  />
-                </div>
-            <div className="formInput">
-                  <label>Khách sạn</label>
-                  <input
-                  disabled="true"
-                    type="text"
-                    placeholder={dataReserve[0].name}
-                  />
-                </div>
-            <div className="formInput">
-                  <label>Tên Phòng</label>
-                  <input
-                  disabled="true"
-                    type="Text"
-                    placeholder={dataReserve[1].title}
-                  />
-                </div>
-            <div className="formInput">
-                  <label>Số phòng</label>
-                  <input
-                  disabled="true"
-                    type="text"
-                    placeholder={dataReserve[2].number}
-                  />
-                </div>
-            <div className="formInput">
-                  <label>Giá phòng</label>
-                  <input
-                  disabled="true"
-                    type="text"
-                    placeholder={`${dataReserve[1].price}.000 VNĐ`}
-                  />
-                </div>
-              
-              <button onClick={handleClick}>Submit</button>
-            </form>
+          <div className="newContainer">
+            <div className="top">
+              <h1>Tạo mới đặt chỗ</h1>
+              <FontAwesomeIcon
+                icon={faCircleXmark}
+                className="rClose"
+                onClick={() => setOpen(false)}
+              />
+            </div>
+            <div className="bottom">
+              <div className="right">
+                <form>
+                  <div className="formInput">
+                    <label>Tên</label>
+                    <input
+                      disabled="true"
+                      type="input"
+                      value={dataReserve[4].fullName}
+                      onChange={() => {}}
+                    />
+                  </div>
+                  <div className="formInput">
+                    <label>Số điện thoại</label>
+                    <input
+                      disabled="true"
+                      required="true"
+                      type="input"
+                      value={dataReserve[4].phone}
+                      onChange={() => {}}
+                    />
+                  </div>
+                  <div className="formInput">
+                    <label>Email</label>
+                    <input
+                      disabled="true"
+                      type="input"
+                      value={dataReserve[4].email}
+                      onChange={() => {}}
+                    />
+                  </div>
+                  <div className="formInput">
+                    <label>Khách sạn</label>
+                    <input
+                      disabled="true"
+                      type="text"
+                      value={dataReserve[0].name}
+                    />
+                  </div>
+                  <div className="formInput">
+                    <label>Tên Phòng</label>
+                    <input
+                      disabled="true"
+                      type="Text"
+                      value={dataReserve[1].title}
+                    />
+                  </div>
+                  <div className="formInput">
+                    <label>Số phòng</label>
+                    <input
+                      disabled="true"
+                      type="text"
+                      value={dataReserve[2].number}
+                    />
+                  </div>
+                  <div className="formInput">
+                    <label>Địa chỉ</label>
+                    <input
+                      disabled="true"
+                      type="text"
+                      value={dataReserve[0].address}
+                    />
+                  </div>
+                  <div className="formInput">
+                    <label>Ngày vào</label>
+                    <input
+                      disabled="true"
+                      type="text"
+                      value={moment(dataReserve[3][0].startDate).format(
+                        "DD/MM/YYYY"
+                      )}
+                    />
+                  </div>
+                  <div className="formInput">
+                    <label>Ngày ra</label>
+                    <input
+                      disabled="true"
+                      type="text"
+                      value={moment(dataReserve[3][0].endDate).format(
+                        "DD/MM/YYYY"
+                      )}
+                    />
+                  </div>
+                  <div className="formInput">
+                    <label>Giá phòng</label>
+                    <input
+                      disabled="true"
+                      type="text"
+                      value={`${dataReserve[1].price}.000 VNĐ`}
+                    />
+                  </div>
+                  <div className="formInput">
+                    <h3>Tổng tiền: {total}</h3>
+                  </div>
+                </form>
+              </div>
+                <button className="" onClick={handleClickConfirm}>Xác nhận</button>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+        {check && (
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={check}
+            autoHideDuration={1000}
+          >
+            <Alert severity="success" sx={{ width: "100%" }}>
+              Bạn đã đặt phòng thành công
+            </Alert>
+          </Snackbar>
+        )}
       </Card>
     </Modal>
   );
