@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "connect-sqlite3": "^0.9.13"
+  }
+}

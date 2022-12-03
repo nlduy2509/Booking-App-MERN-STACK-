@@ -45,3 +45,18 @@ export const login = async(req,res,next)=>{
         next(err)
     }
 }
+export const loginByGoogle = async(req,res,next)=>{
+    try{
+        const User = await user.findOne({username: req.body.username});
+        const token = jwt.sign({
+            id: User._id, isAdmin: User.isAdmin 
+        }, process.env.JWT)
+
+        const{isAdmin,...otherDetails} = User._doc
+        
+        res.cookie("access_token",token,{httpOnly: true,}).status(200).json({ details:{...otherDetails},access_token:token, isAdmin})
+    }
+    catch(err){
+        next(err)
+    }
+}

@@ -6,7 +6,7 @@ import usersRoute from "./routes/users.js"
 import hotelsRoute from "./routes/hotels.js"
 import roomsRoute from "./routes/rooms.js"
 import reservationRoute from "./routes/reservation.js"
-// import cookieParser from "cookie-parser"
+import cookieParser from "cookie-parser"
 import cookieSession from "cookie-session";
 import cors from "cors"
 
@@ -33,7 +33,7 @@ mongoose.connection.on("disconnected",()=>{
 
 //middleware
 
-// app.use(cookieParser())
+app.use(cookieParser())
 app.use(cookieSession({name:"session",keys:['lama'],maxAge:24*60*60*100}))
 app.use(express.json())
 

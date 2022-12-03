@@ -62,7 +62,7 @@ const New = ({ inputs, title }) => {
             <form>
               <div className="formInput">
                 <label htmlFor="file">
-                  Image: <DriveFolderUploadOutlinedIcon className="icon" />
+                  Ảnh: <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
                 <input
                   type="file"
@@ -78,7 +78,7 @@ const New = ({ inputs, title }) => {
                   <input
                     onChange={handleChange}
                     type={input.type}
-                    placeholder={input.placeholder}
+                    placeholder={"Nhập..."}
                     id={input.id}
                   />
                 </div>

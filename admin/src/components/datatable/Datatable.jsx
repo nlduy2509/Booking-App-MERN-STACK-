@@ -6,9 +6,13 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import moment from "moment";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 const Datatable = ({columns}) => {
   const location = useLocation()
+  const { user } = useContext(AuthContext);
+
   const path = location.pathname.split("/")[1]
   const [List, setList] = useState();
 
@@ -17,7 +21,12 @@ const Datatable = ({columns}) => {
       try {
         const response = await axios.get(`/${path}`, {
         });
-        setList(response.data)
+        if(path==="users"){
+          const newData = response.data?.filter(e=>e._id !== user._id)
+          setList(newData)
+        }else{
+          setList(response.data)
+        }
       } catch (e) {
         throw new Error();
       }
@@ -39,7 +48,7 @@ const Datatable = ({columns}) => {
   const actionColumn = [
     {
       field: "action",
-      headerName: "Action",
+      headerName: "",
       width: 200,
       renderCell: (params) => {
         return (

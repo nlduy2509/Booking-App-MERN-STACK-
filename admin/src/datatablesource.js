@@ -1,8 +1,13 @@
 import moment from "moment"
 export const userColumns = [
-  { field: "_id", headerName: "ID", width: 250 },
+  // { field: "_id", headerName: "ID", width: 250 },
   {
-    field: "user",
+    field: "fullName",
+    headerName: "Họ và tên",
+    width: 230,
+  },
+  {
+    field: "Tên đăng nhập",
     headerName: "User",
     width: 230,
     renderCell: (params) => {
@@ -20,67 +25,69 @@ export const userColumns = [
     width: 230,
   },
 
-  {
-    field: "country",
-    headerName: "Country",
-    width: 100,
-  },
+  // {
+  //   field: "country",
+  //   headerName: "Country",
+  //   width: 100,
+  // },
   {
     field: "city",
-    headerName: "City",
+    headerName: "Nơi ở",
     width: 100,
   },
   {
     field: "phone",
-    headerName: "Phone",
+    headerName: "Điện thoại",
     width: 100,
   },
 ];
 
 export const hotelColumns = [
-  { field: "_id", headerName: "ID", width: 250 },
+  // { field: "_id", headerName: "ID", width: 250 },
   {
     field: "name",
-    headerName: "Name",
+    headerName: "Tên",
     width: 150,
   },
-  {
-    field: "type",
-    headerName: "Type",
-    width: 100,
-  },
+  // {
+  //   field: "type",
+  //   headerName: "Loại",
+  //   width: 100,
+  // },
   {
     field: "title",
-    headerName: "Title",
-    width: 230,
+    headerName: "Mô tả",
+    width: 400,
   },
   {
     field: "city",
-    headerName: "City",
-    width: 100,
+    headerName: "Vị trí",
+    width: 200,
   },
 ];
 
 export const roomColumns = [
-  { field: "_id", headerName: "ID", width: 250 },
+  // { field: "_id", headerName: "ID", width: 250 },
   {
     field: "title",
-    headerName: "Title",
+    headerName: "Tên phòng",
     width: 230,
   },
   {
     field: "desc",
-    headerName: "Description",
-    width: 200,
+    headerName: "Mô tả",
+    width: 400,
   },
   {
     field: "price",
-    headerName: "Price",
-    width: 100,
+    headerName: "Giá",
+    valueFormatter:params=>
+    {return params.value+".000 VNĐ"},
+    width: 150,
   },
   {
     field: "maxPeople",
-    headerName: "Max People",
+    headerName: "Tối đa",
     width: 100,
   },
 ];
@@ -119,7 +126,9 @@ export const reserveColumns = [
   {
     field: "price",
     headerName: "Giá",
-    width: 100,
+    valueFormatter:params=>
+    {return params.value+".000 VNĐ"},
+    width: 150,
   },
   {
     field: "phoneReservator",

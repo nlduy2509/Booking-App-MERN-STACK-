@@ -2,6 +2,8 @@ import express from "express"
 import { deleteUser, getUser, getUsers, updateUser } from "../controllers/user.js";
 import { verifyAdmin, verifyToken, verifyUser } from "../utils/verifyToken.js";
 import passport from "passport";
+import { verify } from "../utils/checkTokenGoogle.js";
+import { loginByGoogle } from "../controllers/auth.js";
 
 const router = express.Router();
 const CLIENT_URL="http://localhost:3000/"
@@ -34,7 +36,8 @@ router.get('/google/callback', passport.authenticate('google',{
     failureRedirect:'/login/failed'
 }));
 
-//UPDATE
+router.put("/google",verify,loginByGoogle)
+
 router.put("/:id", verifyUser, updateUser)
 //DELETE
 router.delete("/:id",verifyUser, deleteUser)
@@ -42,5 +45,6 @@ router.delete("/:id",verifyUser, deleteUser)
 router.get("/:id",verifyUser, getUser)
 //GETALL
 router.get("/",verifyAdmin, getUsers)
+
 
 export default router
