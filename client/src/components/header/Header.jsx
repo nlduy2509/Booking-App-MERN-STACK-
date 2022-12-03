@@ -9,14 +9,13 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "./header.css";
 import { DateRange } from "react-date-range";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
-
 const Header = ({ type }) => {
   const [destination, setDestination] = useState("");
   const [openDate, setOpenDate] = useState(false);
@@ -33,6 +32,8 @@ const Header = ({ type }) => {
     children: 0,
     room: 1,
   });
+
+  const [modalPhoneNumber,setModalPhoneNumber]=useState(false)
 
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
@@ -52,6 +53,12 @@ const Header = ({ type }) => {
     dispatch({type:"NEW_SEARCH", payload:{destination, dates, options}})
     navigate("/hotels", { state: { destination, dates, options } });
   };
+
+  useEffect(()=>{
+    if(user.phone===""){
+      setModalPhoneNumber(true)
+    }
+  },[])
 
   return (
     <div className="header">
@@ -91,13 +98,13 @@ const Header = ({ type }) => {
               Get rewarded for your travels – unlock instant savings of 10% or
               more with a free Lamabooking account
             </p>
-            {user ? user.username : (<button className="headerBtn">Sign in / Register</button>)}
+            {user ? user.username : (<button className="headerBtn">Đăng nhập / Đăng kí</button>)}
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
                 <input
                   type="text"
-                  placeholder="Where are you going?"
+                  placeholder="Nhập nơi bạn muốn đến"
                   className="headerSearchInput"
                   onChange={(e) => setDestination(e.target.value)}
                 />
@@ -127,11 +134,11 @@ const Header = ({ type }) => {
                 <span
                   onClick={() => setOpenOptions(!openOptions)}
                   className="headerSearchText"
-                >{`${options.adult} adult · ${options.children} children · ${options.room} room`}</span>
+                >{`${options.adult} Người lớn - ${options.children} Trẻ em - ${options.room} Phòng`}</span>
                 {openOptions && (
                   <div className="options">
                     <div className="optionItem">
-                      <span className="optionText">Adult</span>
+                      <span className="optionText">Người lớn</span>
                       <div className="optionCounter">
                         <button
                           disabled={options.adult <= 1}
@@ -152,7 +159,7 @@ const Header = ({ type }) => {
                       </div>
                     </div>
                     <div className="optionItem">
-                      <span className="optionText">Children</span>
+                      <span className="optionText">Trẻ em</span>
                       <div className="optionCounter">
                         <button
                           disabled={options.children <= 0}
@@ -173,7 +180,7 @@ const Header = ({ type }) => {
                       </div>
                     </div>
                     <div className="optionItem">
-                      <span className="optionText">Room</span>
+                      <span className="optionText">Phòng</span>
                       <div className="optionCounter">
                         <button
                           disabled={options.room <= 1}

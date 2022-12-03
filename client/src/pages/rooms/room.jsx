@@ -66,6 +66,7 @@ const RoomCard = (props) => {
     setOpenModal(false);
     setNumberRoom([]);
   };
+  console.log("aaa",numberRoom);
   return (
     <Stack direction="row" spacing={3}>
       <Grid container>

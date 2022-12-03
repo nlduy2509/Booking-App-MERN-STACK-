@@ -55,6 +55,10 @@ const ReservationSchema = new mongoose.Schema({
         type:Date,
         require:true
     },
+    status:{
+       id:Number,
+       name:String   
+    }
   
 })
 

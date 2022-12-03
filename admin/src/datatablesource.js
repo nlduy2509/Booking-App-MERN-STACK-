@@ -7,9 +7,9 @@ export const userColumns = [
     width: 230,
   },
   {
-    field: "Tên đăng nhập",
-    headerName: "User",
-    width: 230,
+    field: "User",
+    headerName: "Tên đăng nhập",
+    width: 300,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
@@ -21,7 +21,7 @@ export const userColumns = [
   },
   {
     field: "email",
-    headerName: "Email",
+    headerName: "Mail",
     width: 230,
   },
 
@@ -156,5 +156,13 @@ export const reserveColumns = [
       }
       
     },
+  },
+  {
+    field: "status",
+    headerName: "Trạng thái",
+    width: 150,
+    renderCell:(params)=>{
+      return params.value?.name
+    }
   },
 ];

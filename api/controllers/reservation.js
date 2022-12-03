@@ -17,7 +17,7 @@ export const updatedReservation = async (req, res, next) => {
       { $set: req.body },
       { new: true }
     );
-    res.status(200).json(updatedReservation);
+    res.status(200).json({success:true,data:updatedReservation});
   } catch (err) {
     next(err);
   }

@@ -43,11 +43,11 @@ const Login = () => {
     }
   };
   const handleOnSuccess=async(res)=>{
+    console.log("res",res);
     const response = await axios.put("http://localhost:8800/api/users/google",{
       token:res.tokenId,
       username:res.profileObj.email
     })
-    //  localStorage.setItem("user", JSON.stringify(response.data.details));
     dispatch({ type: "LOGIN_SUCCESS", payload: response.data.details });
     navigate(-1);
   }
@@ -73,11 +73,13 @@ const Login = () => {
         />
         <button disabled={loading} onClick={handleClick} className="lButton">
           Login
-        </button>
+        </button >
         <div>
+          {/* ==============Login GG============== */}
           <GoogleLogin
+          style={{width:"500px",}}
             clientId={clientId}
-            buttonText="Sign in with Google"
+            buttonText="Đăng nhập với Google"
             uxMode="popup"
             onSuccess={(res) => handleOnSuccess(res)
             }
