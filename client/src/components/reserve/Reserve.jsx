@@ -13,7 +13,7 @@ export default function Reservation(props) {
   const { open, setOpen, dataReserve, setOpenModal } = props;
   const [total, setTotal] = useState("");
   const [check, setCheck] = useState(false);
-  const [dateFromTo, setDateFromTo] = useState([]);
+  // const [dateFromTo, setDateFromTo] = useState([]);
   const navigate = useNavigate();
 
   const handleClickConfirm = async () => {
@@ -28,29 +28,31 @@ export default function Reservation(props) {
       idRoom: dataReserve[1]._id,
       nameRoom: dataReserve[1].title,
       price: dataReserve[1].price,
-      dateCheckIn: dataReserve[3][0].startDate,
-      dateCheckOut: dataReserve[3][0].endDate,
+      dateCheckIn: moment(dataReserve[3][0].startDate).format(),
+      dateCheckOut: moment(dataReserve[3][0].endDate).format(),
       idNumberRoom: dataReserve[2]._id,
       numberRoom: dataReserve[2].number,
+      status:{ id: 1, name: "Chờ xác nhận" }
     };
+    console.log("body",body);
     try {
       const res = await axios.post(
         `/reservations/create/${dataReserve[4]._id}`,
         body
       );
       if (res.status === 200) {
-        try {
-          await axios.put(`/rooms/availability/${dataReserve[2]._id}`,{
-            dates:dateFromTo
-          })
-        } catch (error) {
-          return error
-        }
+        // try {
+        //   await axios.put(`/rooms/availability/${dataReserve[2]._id}`,{
+        //     dates:dateFromTo
+        //   })
+        // } catch (error) {
+        //   return error
+        // }
         setCheck(true);
         setTimeout(() => {
           setOpen(false);
           setOpenModal(false);
-        }, 3000);
+        }, 2000);
       }
     } catch (error) {
       return error;
@@ -68,15 +70,15 @@ export default function Reservation(props) {
     if (MonthOut > MonthIn) {
       setTotal(`${dataReserve[1].price * (dateOut + 30 - dateIn + 1)}.000 VNĐ`);
     } else {
-      const DFT = [];
-      for (let i = parseInt(dateIn); i <= parseInt(dateOut); i++) {
-        DFT.push(`${i}/${MonthIn}/${Year}`);
-      }
-      setDateFromTo(DFT);
+      // const DFT = [];
+      // for (let i = parseInt(dateIn); i <= parseInt(dateOut); i++) {
+      //   DFT.push(`${i}/${MonthIn}/${Year}`);
+      // }
+      // setDateFromTo(DFT);
       setTotal(`${dataReserve[1].price * (dateOut - dateIn + 1)}.000 VNĐ`);
     }
   }, []);
-  console.log("dateFromTo",dateFromTo);
+   console.log("dateFromTo",dataReserve[4]);
   return (
     <Modal
       aria-labelledby="edit-modal-title"
@@ -122,7 +124,7 @@ export default function Reservation(props) {
                   <div className="formInput">
                     <label>Số điện thoại</label>
                     <input
-                      disabled="true"
+                      disabled= {dataReserve[4].phone===""?false:true}
                       required="true"
                       type="input"
                       value={dataReserve[4].phone}

@@ -12,7 +12,6 @@ const ReservationSchema = new mongoose.Schema({
     },
     phoneReservator:{
         type: Number,
-        required:true
     },
     mailReservator:String,
     idHotel:{

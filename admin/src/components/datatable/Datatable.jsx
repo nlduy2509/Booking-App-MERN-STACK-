@@ -16,6 +16,8 @@ import {
   Card,
   Grid,
   TextField,
+  Snackbar,
+  Alert
 } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 
@@ -28,13 +30,14 @@ const Datatable = ({ columns }) => {
   const [List, setList] = useState();
   const [status, setStatus] = useState("");
   const [modalStatus, setModalStatus] = useState(false);
-  const [rowData, setRowData] = useState();
+  const [rowData, setRowData] = useState([]);
+  const [dateFromTo, setDateFromTo] = useState([]);
+  const [openSnackbar,setOpenSnackbar]=useState(false)
 
   const actions = [
     { id: 1, name: "Chờ xác nhận" },
     { id: 2, name: "Đã xác nhận" },
-    { id: 3, name: "Đã nhận phòng" },
-    { id: 4, name: "Huỷ" },
+    { id: 3, name: "Huỷ" },
   ];
 
   const handleChangeStatus = (e) => {
@@ -55,8 +58,15 @@ const Datatable = ({ columns }) => {
         if (path === "users") {
           const newData = response.data?.filter((e) => e._id !== user._id);
           setList(newData);
+        }
+        else if (path === "reservations") {
+          const newData = response.data.reverse()
+          setList(newData);
         } else {
           setRePage(false)
+          setTimeout(()=>{
+            setOpenSnackbar(false)
+          },1000)
           setList(response.data);
         }
       } catch (e) {
@@ -65,17 +75,60 @@ const Datatable = ({ columns }) => {
     };
     fetchData();
   }, [path,rePage]);
+  
+  // useEffect(()=>{
+   
+  //   console.log("row",rowData);
+  // },[rowData])
 
-  const handleCofirm=async()=>{
+  //==============Confirm Status================  
+  const handleCofirm =async()=>{
+    
+    const dateIn = moment(rowData.dateCheckIn).format("D");
+    const MonthIn = moment(rowData.dateCheckIn).format("M");
+    const dateOut = moment(rowData.dateCheckOut).format("D");
+    const MonthOut = moment(rowData.dateCheckOut).format("M");
+    const Year = moment(rowData.dateCheckIn).format("YYYY");
+    const DFT=[]
+
+    if (MonthOut > MonthIn) {
+     
+    } else {
+      for (let i = parseInt(dateIn); i <= parseInt(dateOut); i++) {
+        DFT.push(`${Year}-${MonthIn}-${i}T17:00:00+07:00`);
+      }
+    }
+
     const body = {
       status: actions.find(e=>e.id===status)
-    } 
+    }
     const id= rowData._id
+
+    const idNumberRoom = rowData.idNumberRoom
+
+
+
     try {
       const res = await axios.put(`/${path}/${id}`,body)
+      if(status===2){
+        await axios.put(`/rooms/availability/${idNumberRoom}`,{
+          dates:DFT.map(e=>moment(e).format())
+        })
+      }
+      if(status===3){
+        await axios.put("/rooms/roomcancel/",{
+          id:idNumberRoom,
+          numberRoom:rowData.numberRoom,
+          dates:DFT.map(e=>moment(e).format())
+        })
+      }
       if(res.data.success){
-        setModalStatus(false)
+        setOpenSnackbar(true)
+        setTimeout(()=>{
+          setModalStatus(false)
+        },1000)
         setRePage(true)
+        console.log("ngafy",DFT.map(e=>moment(e).format()));
       }
     } catch (error) {
       return error
@@ -89,7 +142,7 @@ const Datatable = ({ columns }) => {
     } catch (err) {}
   };
 
-  console.log("row",rowData);
+  console.log("rowData",rowData);
 
   const statusColumn = [
     {
@@ -296,6 +349,17 @@ const Datatable = ({ columns }) => {
               </Grid>
               
             </Grid>
+            {openSnackbar && (
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={openSnackbar}
+            autoHideDuration={1000}
+          >
+            <Alert severity="success" sx={{ width: "100%" }}>
+              Cập nhật thành công
+            </Alert>
+          </Snackbar>
+        )}
           </Card>
         </Modal>
       )}

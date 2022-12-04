@@ -1,6 +1,7 @@
 import room from "../models/room.js";
 import hotel from "../models/hotel.js";
 import { createError } from "../utils/error.js";
+import moment from "moment"
 
 export const createRoom = async (req, res, next) => {
   const hotelId = req.params.hotelid;
@@ -40,6 +41,30 @@ export const updateRoomAvailability = async (req, res, next) => {
       {
         $push: {
           "roomNumbers.$.unavailableDates": req.body.dates
+        },
+      }
+    );
+    res.status(200).json("Room status has been updated.");
+  } catch (err) {
+    next(err);
+  }
+};
+export const updateRoomCancel = async (req, res, next) => {
+
+  try {
+    const dataRoom= await room.findOne({ "roomNumbers._id": req.body.id})
+    const dates=dataRoom.roomNumbers.find(e=>e.number===req.body.numberRoom).unavailableDates
+    const dateCancel= req.body.dates
+    let data = dates
+    for(let i=0; i<=dateCancel.length-1;i++){
+      const date= moment(dateCancel[i])
+      data = data.filter(e=>!moment(e).isSame(date))
+    }
+    await room.updateOne(
+      { "roomNumbers._id": req.body.id },
+      {
+        $set: {
+          "roomNumbers.$.unavailableDates": data
         },
       }
     );
