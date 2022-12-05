@@ -54,11 +54,11 @@ const Header = ({ type }) => {
     navigate("/hotels", { state: { destination, dates, options } });
   };
 
-  useEffect(()=>{
-    if(user.phone===""){
-      setModalPhoneNumber(true)
-    }
-  },[])
+  // useEffect(()=>{
+  //   if(user.phone===""){
+  //     setModalPhoneNumber(true)
+  //   }
+  // },[])
 
   return (
     <div className="header">
@@ -98,7 +98,7 @@ const Header = ({ type }) => {
               Get rewarded for your travels – unlock instant savings of 10% or
               more with a free Lamabooking account
             </p>
-            {user ? user.username : (<button className="headerBtn">Đăng nhập / Đăng kí</button>)}
+            {user ? user.fullName : (<button className="headerBtn">Đăng nhập / Đăng kí</button>)}
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />

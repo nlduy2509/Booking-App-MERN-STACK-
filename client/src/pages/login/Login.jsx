@@ -49,6 +49,7 @@ const Login = () => {
       username:res.profileObj.email
     })
     dispatch({ type: "LOGIN_SUCCESS", payload: response.data.details });
+    console.log(response.data.details)
     navigate(-1);
   }
 

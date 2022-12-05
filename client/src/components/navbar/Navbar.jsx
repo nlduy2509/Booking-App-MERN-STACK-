@@ -28,10 +28,14 @@ const Navbar = () => {
           <span className="logo">Booking App</span>
         </Link>
         {user ? (
-        <div>
-          <span>{user.username}</span>
-          <button onClick={handleClickLogout}>Logout</button>
-        </div>
+        <>
+          <div className="user">
+            <span>{user.fullName}</span>
+            <img src={user.img} className="img-user"></img>
+            <button onClick={handleClickLogout}>Logout</button>
+          </div> 
+        </>
+        
           )  : (
         <div className="navItems">
           <button className="navButton" onClick={handleClickRegister}>Register</button>
