@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import "./historyreserve.css";
 import { AuthContext } from "../../context/AuthContext";
 
 import "./table.scss";
@@ -15,9 +14,14 @@ import Paper from "@mui/material/Paper";
 import moment from "moment";
 import Navbar from "../../components/navbar/Navbar";
 
+import { borderBottom } from "@mui/system";
+import { Alert, Snackbar } from "@mui/material";
+
 const Historyreservations = () =>{
     const { user } = useContext(AuthContext);
     const [List, setList] = useState([]);
+    const [rePage,setRePage]= useState(false)
+    const [check,setCheck]=useState(false)
     // const fetchData = async () => {
     //     const response = await axios.get(`/reservations/${user._id}`,{});
     //     console.log("data", response.data);
@@ -29,11 +33,12 @@ const Historyreservations = () =>{
       const fetchData = async () => {
         const response = await axios.get(`/reservations/${user._id}`,{});
         setList(response.data)
+        setRePage(false)
+        setCheck(false)
       };
       fetchData(); 
-      console.log("data", List);
      
-    },[user])
+    },[user,rePage])
 
     let rows = List.map(e=>({
       nameReservator:e.nameReservator,
@@ -47,12 +52,30 @@ const Historyreservations = () =>{
   }))
     rows=rows.reverse()
 
+
+    const handleClickCancel=async(value)=>{
+      const body={
+        status: {
+          id: 3,
+          name: "Huỷ"
+      },
+      }
+      try {       
+        await axios.put(`/reservations/${value}`,body)
+        setRePage(true)
+        setCheck(true)
+      } catch (error) {
+        return error
+      }
+    }
+
     return (<>
     <Navbar/>
     <h2> Danh sách đơn đặt của bạn</h2>
 
-<TableContainer component={Paper} className="table">
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+      <div style={{width:"95%",display:"flex",justifyItems:"center", padding:"36px"}}>
+      <TableContainer component={Paper} className="table">
+        <Table sx={{ minWidth: 50 }} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell className="tableCell">Tên khách hàng</TableCell>
@@ -62,6 +85,7 @@ const Historyreservations = () =>{
               <TableCell className="tableCell">Ngày vào</TableCell>
               <TableCell className="tableCell">Ngày ra</TableCell>
               <TableCell className="tableCell">Trạng thái</TableCell>
+              <TableCell className="tableCell"> Chọn</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -78,14 +102,30 @@ const Historyreservations = () =>{
                 <TableCell className="tableCell">{row.numberRoom}</TableCell>
                 <TableCell className="tableCell">{row.dateCheckIn}</TableCell>
                 <TableCell className="tableCell">{row.dateCheckOut}</TableCell>
-                <TableCell className="tableCell">
+                <TableCell className="tableCell">                
                   <span className={`status ${row.status.id===1?"waiting":"Approved"}`}>{row.status.name}</span>
                 </TableCell>
+                <TableCell className="tableCell">                
+                  {row.status.id===1?<button onClick={()=>handleClickCancel(row.id)}>Huỷ</button>:<span></span>}
+                </TableCell>
+
               </TableRow>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
+      {check && (
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={check}
+            autoHideDuration={1000}
+          >
+            <Alert severity="success" sx={{ width: "100%" }}>
+              Bạn đã cập nhật thành công
+            </Alert>
+          </Snackbar>
+        )}
+      </div>
     </>
       
     );
