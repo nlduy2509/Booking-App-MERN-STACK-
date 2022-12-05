@@ -10,6 +10,8 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
 import { AuthContext } from "./context/AuthContext";
 import { hotelColumns, reserveColumns, roomColumns, userColumns } from "./datatablesource";
+
+
 import NewHotel from "./pages/newHotel/NewHotel";
 import NewRoom from "./pages/newRoom/NewRoom";
 
@@ -36,7 +38,7 @@ function App() {
               index
               element={
                 <ProtectedRoute>
-                  <Home />
+                  <Home/>
                 </ProtectedRoute>
               }
             />
@@ -108,6 +110,16 @@ function App() {
                 element={
                   <ProtectedRoute>
                     <NewRoom />
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+            <Route path="waiting">
+              <Route
+                index
+                element={
+                  <ProtectedRoute>
+                    <List  columns={reserveColumns}/>
                   </ProtectedRoute>
                 }
               />

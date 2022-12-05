@@ -6,7 +6,9 @@
   -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
   box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
   border-radius: 10px;
-  height: 100px;
+  height: 120px;
+  background-color: rgb(247, 204, 244);
+  margin: 8px;
 
   .left,
   .right {
@@ -15,20 +17,32 @@
     justify-content: space-between;
 
     .title {
-      font-weight: bold;
-      font-size: 14px;
-      color: rgb(160, 160, 160);
+      font-weight: 800;
+      font-size: 16px;
+      color: rgb(165, 43, 145);
     }
 
     .counter {
-      font-size: 28px;
-      font-weight: 300;
+      font-size: 18px;
+      font-weight: 600;
+      .count{
+        color: rgb(180, 91, 32);
+        font-weight: 800;
+        font-size: 24px;
+      }
     }
 
     .link {
       width: max-content;
-      font-size: 12px;
+      font-size: 14px;
       border-bottom: 1px solid gray;
+      margin-bottom: 4px;
+      cursor: pointer;
+      color: rgb(106, 148, 134);
+    }
+    .link:hover{
+      color: rgb(12, 155, 76);
+      font-weight: 600;
     }
 
     .percentage {

@@ -1,8 +1,8 @@
 .sidebar {
   flex: 1;
-  border-right: 0.5px solid rgb(230, 227, 227);
+  // border-right: 1px solid rgb(230, 227, 227);
+  background-color: rgb(200, 236, 233);
   min-height: 100vh;
-  background-color: white;
 
   .top {
     height: 50px;
@@ -13,7 +13,7 @@
     .logo {
       font-size: 20px;
       font-weight: 900;
-      color: #6439ff;
+      color: pink;
     }
   }
 
@@ -50,7 +50,7 @@
 
         .icon {
           font-size: 18px;
-          color: #7451f8;
+          color: rgb(223, 132, 185);
         }
 
         span{

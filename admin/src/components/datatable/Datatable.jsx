@@ -17,27 +17,29 @@ import {
   Grid,
   TextField,
   Snackbar,
-  Alert
+  Alert,
 } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 
 const Datatable = ({ columns }) => {
   const location = useLocation();
+  const { state } = useLocation();
   const { user } = useContext(AuthContext);
 
   const path = location.pathname.split("/")[1];
-  const [rePage,setRePage]=useState(false)
+  const [rePage, setRePage] = useState(false);
   const [List, setList] = useState();
   const [status, setStatus] = useState("");
   const [modalStatus, setModalStatus] = useState(false);
   const [rowData, setRowData] = useState([]);
   const [dateFromTo, setDateFromTo] = useState([]);
-  const [openSnackbar,setOpenSnackbar]=useState(false)
+  const [openSnackbar, setOpenSnackbar] = useState(false);
 
   const actions = [
     { id: 1, name: "Chờ xác nhận" },
     { id: 2, name: "Đã xác nhận" },
     { id: 3, name: "Huỷ" },
+    { id: 4, name: "Đã trả phòng" },
   ];
 
   const handleChangeStatus = (e) => {
@@ -59,14 +61,28 @@ const Datatable = ({ columns }) => {
           const newData = response.data?.filter((e) => e._id !== user._id);
           setList(newData);
         }
-        else if (path === "reservations") {
-          const newData = response.data.reverse()
-          setList(newData);
+        if (path === "reservations") {
+          if(state==="waiting"){
+            const newData = response.data.filter(e=>e.status.id===1)
+            newData.reverse()
+            setList(newData);
+          }else if(state==="confirm"){
+            const newData = response.data.filter(e=>e.status.id===2)
+            setList(newData);
+          }
+          else if(state==="cancel"){
+            const newData = response.data.filter(e=>e.status.id===3)
+            setList(newData);
+          }
+          else{
+            const newData = response.data.reverse();
+            setList(newData);
+          }
+          setRePage(false);
+          setTimeout(() => {
+            setOpenSnackbar(false);
+          }, 1000);
         } else {
-          setRePage(false)
-          setTimeout(()=>{
-            setOpenSnackbar(false)
-          },1000)
           setList(response.data);
         }
       } catch (e) {
@@ -74,66 +90,109 @@ const Datatable = ({ columns }) => {
       }
     };
     fetchData();
-  }, [path,rePage]);
-  
+  }, [path, rePage]);
+
   // useEffect(()=>{
-   
+
   //   console.log("row",rowData);
   // },[rowData])
 
-  //==============Confirm Status================  
-  const handleCofirm =async()=>{
-    
+  console.log("state", state);
+
+  //==============Confirm Status================
+  const handleCofirm = async () => {
     const dateIn = moment(rowData.dateCheckIn).format("D");
     const MonthIn = moment(rowData.dateCheckIn).format("M");
     const dateOut = moment(rowData.dateCheckOut).format("D");
     const MonthOut = moment(rowData.dateCheckOut).format("M");
     const Year = moment(rowData.dateCheckIn).format("YYYY");
-    const DFT=[]
+    const DFT = [];
 
     if (MonthOut > MonthIn) {
-     
+      for (let i = parseInt(dateIn); i <= (parseInt(dateOut)+30); i++) {
+        if(i>30){
+          if(i-30>=10){
+            if(MonthOut>=10){
+              DFT.push(`${Year}-${MonthOut}-${i-30}T14:00:00`);
+            }else{
+              DFT.push(`${Year}-0${MonthOut}-${i-30}T14:00:00`);
+            }
+          }else{
+            if(MonthOut>=10){
+              DFT.push(`${Year}-${MonthOut}-0${i-30}T14:00:00`);
+            }else{
+              DFT.push(`${Year}-0${MonthOut}-0${i-30}T14:00:00`);
+            }
+          }
+        }else{
+          if(MonthIn>=10){
+            DFT.push(`${Year}-${MonthIn}-${i}T14:00:00`);          
+          }else{
+            DFT.push(`${Year}-0${MonthIn}-${i}T14:00:00`);
+          }
+        }
+      }
     } else {
       for (let i = parseInt(dateIn); i <= parseInt(dateOut); i++) {
-        DFT.push(`${Year}-${MonthIn}-${i}T17:00:00+07:00`);
+        if(i>=10){
+          if(MonthIn>=10){
+
+            DFT.push(`${Year}-${MonthIn}-${i}T14:00:00`);
+          }else{
+            DFT.push(`${Year}-0${MonthIn}-${i}T14:00:00`);
+
+          }
+        }else{
+          if(MonthIn>=10){
+
+            DFT.push(`${Year}-${MonthIn}-0${i}T14:00:00`);
+          }else{
+            DFT.push(`${Year}-0${MonthIn}-0${i}T14:00:00`);
+
+          }
+        }
       }
     }
 
     const body = {
-      status: actions.find(e=>e.id===status)
-    }
-    const id= rowData._id
+      status: actions.find((e) => e.id === status),
+    };
+    const id = rowData._id;
 
-    const idNumberRoom = rowData.idNumberRoom
-
-
+    const idNumberRoom = rowData.idNumberRoom;
 
     try {
-      const res = await axios.put(`/${path}/${id}`,body)
-      if(status===2){
-        await axios.put(`/rooms/availability/${idNumberRoom}`,{
-          dates:DFT.map(e=>moment(e).format())
-        })
+      const res = await axios.put(`/${path}/${id}`, body);
+      if (status === 2) {
+        await axios.put(`/rooms/availability/${idNumberRoom}`, {
+          dates: DFT,
+        });
       }
-      if(status===3){
-        await axios.put("/rooms/roomcancel/",{
-          id:idNumberRoom,
-          numberRoom:rowData.numberRoom,
-          dates:DFT.map(e=>moment(e).format())
-        })
+      if (status === 3) {
+        await axios.put("/rooms/roomcancel/", {
+          id: idNumberRoom,
+          numberRoom: rowData.numberRoom,
+          dates: DFT.map((e) => moment(e).format()),
+        });
       }
-      if(res.data.success){
-        setOpenSnackbar(true)
-        setTimeout(()=>{
-          setModalStatus(false)
-        },1000)
-        setRePage(true)
-        console.log("ngafy",DFT.map(e=>moment(e).format()));
+      if (status === 4) {
+        await axios.put("/rooms/roomcancel/", {
+          id: idNumberRoom,
+          numberRoom: rowData.numberRoom,
+          dates: DFT.map((e) => moment(e).format()),
+        });
+      }
+      if (res.data.success) {
+        setOpenSnackbar(true);
+        setTimeout(() => {
+          setModalStatus(false);
+        }, 1000);
+        setRePage(true);
       }
     } catch (error) {
-      return error
+      return error;
     }
-  }
+  };
 
   const handleDelete = async (id) => {
     try {
@@ -142,7 +201,7 @@ const Datatable = ({ columns }) => {
     } catch (err) {}
   };
 
-  console.log("rowData",rowData);
+  console.log("rowData", rowData);
 
   const statusColumn = [
     {
@@ -231,7 +290,7 @@ const Datatable = ({ columns }) => {
         }
         pageSize={9}
         rowsPerPageOptions={[9]}
-        checkboxSelection
+        // checkboxSelection
         getRowId={(row) => row._id}
       />
       {modalStatus && (
@@ -276,15 +335,15 @@ const Datatable = ({ columns }) => {
                   defaultValue={rowData.nameReservator}
                 />
                 <TextField
-                color="error"
+                  color="error"
                   sx={{ mb: 4, mr: 4, width: "250px" }}
                   id="outlined-disabled"
                   label="Số điện thoại"
                   defaultValue={rowData.phoneReservator}
                 />
                 <Select
-                color="success"
-                  sx={{ width: "250px"}}
+                  color="success"
+                  sx={{ width: "250px" }}
                   labelId="demo-simple-select-required-label"
                   id="demo-simple-select-required"
                   placeholder="Chọn trạng thái"
@@ -301,7 +360,7 @@ const Datatable = ({ columns }) => {
               </Grid>
               <Grid item xs={12} sx={{ ml: "32px" }}>
                 <TextField
-                color="error"
+                  color="error"
                   sx={{ mb: 4, mr: 4, width: "250px" }}
                   id="outlined-disabled"
                   label="Tên phòng"
@@ -309,7 +368,7 @@ const Datatable = ({ columns }) => {
                 />
 
                 <TextField
-                color="error"
+                  color="error"
                   sx={{ mb: 4, mr: 4, width: "250px" }}
                   id="outlined-disabled"
                   label="Số phòng"
@@ -318,7 +377,7 @@ const Datatable = ({ columns }) => {
               </Grid>
               <Grid item xs={12} sx={{ ml: "32px" }}>
                 <TextField
-                color="error"
+                  color="error"
                   sx={{ mr: 4, width: "250px" }}
                   id="outlined-disabled"
                   label="Ngày nhận phòng"
@@ -327,7 +386,7 @@ const Datatable = ({ columns }) => {
                   )}
                 />
                 <TextField
-                color="error"
+                  color="error"
                   sx={{ mr: 4, width: "250px" }}
                   id="outlined-disabled"
                   label="Ngày trả phòng"
@@ -335,31 +394,38 @@ const Datatable = ({ columns }) => {
                     "DD/MM/YYYY"
                   )}
                 />
-                <div onClick={()=>handleCofirm()}
-                style={{
-                  display: "flex",
-                  justifyContent: "end",
-                  margin: "0 32px 32px 0",
-                }}
-              >
-                <button style={{backgroundColor: "orange",height: "40px", width: "100px",cursor:"pointer" }}>
-                  Cập nhật
-                </button>
-              </div>
+                <div
+                  onClick={() => handleCofirm()}
+                  style={{
+                    display: "flex",
+                    justifyContent: "end",
+                    margin: "0 32px 32px 0",
+                  }}
+                >
+                  <button
+                    style={{
+                      backgroundColor: "orange",
+                      height: "40px",
+                      width: "100px",
+                      cursor: "pointer",
+                    }}
+                  >
+                    Cập nhật
+                  </button>
+                </div>
               </Grid>
-              
             </Grid>
             {openSnackbar && (
-          <Snackbar
-            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-            open={openSnackbar}
-            autoHideDuration={1000}
-          >
-            <Alert severity="success" sx={{ width: "100%" }}>
-              Cập nhật thành công
-            </Alert>
-          </Snackbar>
-        )}
+              <Snackbar
+                anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                open={openSnackbar}
+                autoHideDuration={1000}
+              >
+                <Alert severity="success" sx={{ width: "100%" }}>
+                  Cập nhật thành công
+                </Alert>
+              </Snackbar>
+            )}
           </Card>
         </Modal>
       )}

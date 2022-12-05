@@ -47,7 +47,7 @@ export const hotelColumns = [
   {
     field: "name",
     headerName: "Tên",
-    width: 150,
+    width: 200,
   },
   // {
   //   field: "type",
@@ -57,6 +57,11 @@ export const hotelColumns = [
   {
     field: "title",
     headerName: "Mô tả",
+    width: 500,
+  },
+  {
+    field: "address",
+    headerName: "Địa chỉ",
     width: 400,
   },
   {
@@ -96,12 +101,17 @@ export const reserveColumns = [
   // { field: "_id", headerName: "ID", width: 250 },
   {
     field: "nameReservator",
-    headerName: "Tên khách hàng",
+    headerName: "Khách hàng",
+    width: 200,
+  },
+  {
+    field: "nameHotel",
+    headerName: "Khách sạn",
     width: 200,
   },
   {
     field: "nameRoom",
-    headerName: "Tên phòng",
+    headerName: "Phòng",
     width: 200,
   },
   {
@@ -123,13 +133,13 @@ export const reserveColumns = [
      moment(params?.value).format("DD/MM/YYYY"),
     width: 150,
   },
-  {
-    field: "price",
-    headerName: "Giá",
-    valueFormatter:params=>
-    {return params.value+".000 VNĐ"},
-    width: 150,
-  },
+  // {
+  //   field: "price",
+  //   headerName: "Giá",
+  //   valueFormatter:params=>
+  //   {return params.value+".000 VNĐ"},
+  //   width: 150,
+  // },
   {
     field: "phoneReservator",
     headerName: "Số điện thoại",
@@ -147,11 +157,11 @@ export const reserveColumns = [
       const MonthOut = moment(params.row.dateCheckOut).format("M")
       if(MonthOut>MonthIn){
         return (
-          `${params.row.price * (dateOut+30-dateIn+1)||0}.000 VNĐ`
+          `${params.row.price * ((parseInt(dateOut)+30-parseInt(dateIn)+1))||0}.000 VNĐ`
         );
       }else{
         return (
-          `${params.row.price * (dateOut-dateIn+1)||0}.000 VNĐ`
+          `${params.row.price * (parseInt(dateOut)-parseInt(dateIn)+1)||0}.000 VNĐ`
         );
       }
       

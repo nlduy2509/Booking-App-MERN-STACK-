@@ -1,10 +1,29 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import useFetch from "../../hooks/useFetch";
 import "./featured.css";
 
 const Featured = () => {
-  const { data, loading, error } = useFetch(
-    "/hotels/countByCity?cities=berlin,madrid,london"
-  );
+
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(false)
+
+  useEffect(()=>{
+    const fetchData = async () =>{
+        setLoading(true)
+        try {
+            const res = await axios.get("/hotels/countByCity?cities=HCM,DANANG,HANOI,GIALAI")
+            setData(res.data)
+        } catch (err) {
+          return err
+        }
+        setLoading(false)
+    }
+    fetchData()
+},[])
+
+
+
 
   return (
     <div className="featured">
@@ -14,36 +33,47 @@ const Featured = () => {
         <>
           <div className="featuredItem">
             <img
-              src="https://cf.bstatic.com/xdata/images/city/max500/957801.webp?k=a969e39bcd40cdcc21786ba92826063e3cb09bf307bcfeac2aa392b838e9b7a5&o="
+              src="https://th.bing.com/th/id/R.3f3aa79e5351feb2e6d36875a0d87cbb?rik=jS%2f1AHrGfioe9A&pid=ImgRaw&r=0"
               alt=""
               className="featuredImg"
             />
             <div className="featuredTitles">
-              <h1>Berlin</h1>
-              <h2>{data[0]} properties</h2>
+              <h1>Hồ Chí Minh</h1>
+              <h2>{data[0]} Khách sạn</h2>
             </div>
           </div>
 
           <div className="featuredItem">
             <img
-              src="https://cf.bstatic.com/xdata/images/city/max500/690334.webp?k=b99df435f06a15a1568ddd5f55d239507c0156985577681ab91274f917af6dbb&o="
+              src="https://www.telegraph.co.uk/content/dam/travel/Spark/Hayes-and-Jarvis/HayesJarvis-da-nang-night-getty-xlarge.jpg?imwidth=1200"
               alt=""
               className="featuredImg"
             />
             <div className="featuredTitles">
-              <h1>Madrid</h1>
-              <h2>{data[1]} properties</h2>
+              <h1>Đà Nẵng</h1>
+              <h2>{data[1]} Khách sạn</h2>
             </div>
           </div>
           <div className="featuredItem">
             <img
-              src="https://cf.bstatic.com/xdata/images/city/max500/689422.webp?k=2595c93e7e067b9ba95f90713f80ba6e5fa88a66e6e55600bd27a5128808fdf2&o="
+              src="https://www.roadaffair.com/wp-content/uploads/2019/06/skyline-night-hanoi-vietnam-shutterstock_565108885.jpg"
               alt=""
               className="featuredImg"
             />
             <div className="featuredTitles">
-              <h1>London</h1>
-              <h2>{data[2]} properties</h2>
+              <h1>Hà Nội</h1>
+              <h2>{data[2]} Khách sạn</h2>
+            </div>
+          </div>
+          <div className="featuredItem">
+            <img
+              src="https://th.bing.com/th/id/R.de9656ffefd21806a280efd483d14c7c?rik=HAKdoFzX1oE%2frw&pid=ImgRaw&r=0"
+              alt=""
+              className="featuredImg"
+            />
+            <div className="featuredTitles">
+              <h1>Gia Lai</h1>
+              <h2>{data[2]} Khách sạn</h2>
             </div>
           </div>
         </>

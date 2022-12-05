@@ -22,9 +22,10 @@ const Sidebar = () => {
   const [status,setStatus]=useState(window.location.pathname)
   const { dispatch } = useContext(DarkModeContext);
   const navigate = useNavigate()
+
   const handleClick =()=>{
-    localStorage.clear()
     navigate("/login")
+    localStorage.clear()
   }
   useEffect(()=>{
     setStatus(window.location.pathname)
@@ -49,27 +50,27 @@ const Sidebar = () => {
           
           <p className="title">Quản Lý</p>
           <Link to="/users" style={{ textDecoration: "none" }}>
-            <li style={{backgroundColor:`${status==="/users"?"orange":"white"}`}}>
+            <li>
               <PersonOutlineIcon className="icon" />
-              <span>Users</span>
+              <span style={{color:`${status==="/users"?"orange":"#888"}`}}>Users</span>
             </li>
           </Link>
           <Link to="/hotels" style={{ textDecoration: "none" }}>
-            <li style={{backgroundColor:`${status==="/hotels"?"orange":"white"}`}}>
+            <li >
               <StoreIcon className="icon" />
-              <span>Hotel</span>
+              <span style={{color:`${status==="/hotels"?"orange":"#888"}`}}>Hotel</span>
             </li>
           </Link>
           <Link to="/rooms" style={{ textDecoration: "none" }}>
-            <li style={{backgroundColor:`${status==="/rooms"?"orange":"white"}`}}>
+            <li >
               <CreditCardIcon className="icon" />
-              <span>Room</span>
+              <span style={{color:`${status==="/rooms"?"orange":"#888"}`}}>Room</span>
             </li>
           </Link>
           <Link to="/reservations" style={{ textDecoration: "none" }}>
-            <li style={{backgroundColor:`${status==="/reservations"?"orange":"white"}`}}>
+            <li >
               <LocalShippingIcon className="icon" />
-              <span>Reservation</span>
+              <span style={{color:`${status==="/reservations"?"orange":"#888"}`}}>Reservation</span>
             </li>
           </Link>
           
@@ -79,9 +80,9 @@ const Sidebar = () => {
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
           </li>
-          <li>
+          <li onClick={handleClick}>
             <ExitToAppIcon className="icon" />
-            <span onClick={handleClick}>Logout</span>
+            <span>Logout</span>
           </li>
         </ul>
       </div>

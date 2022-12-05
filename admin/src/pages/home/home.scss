@@ -6,9 +6,10 @@
 
     .widgets,
     .charts {
+      margin: 16px;
       display: flex;
       padding: 20px;
-      gap: 20px;
+      gap: 40px;
     }
 
     .charts {
@@ -22,8 +23,9 @@
       margin: 20px;
 
       .listTitle {
-        font-weight: 500;
+        font-weight: 800;
         color: gray;
+        font-size: 24px;
         margin-bottom: 15px;
       }
     }
