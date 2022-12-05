@@ -20,16 +20,20 @@ const Navbar = () => {
     localStorage.clear()
     navigate("/login")
   }
+  const handleClickViewHist=()=>{
+    navigate("/myreserve")
+  }
 
   return (
     <div className="navbar">
       <div className="navContainer">
         <Link to="/" style={{textDecoration:"none"}}>
-          <span className="logo">Booking App</span>
+          <span className="logo">BOOKING</span>
         </Link>
         {user ? (
         <>
           <div className="user">
+            <button onClick={handleClickViewHist}>Xem Lịch Sử</button>
             <span>{user.fullName}</span>
             <img src={user.img} className="img-user"></img>
             <button onClick={handleClickLogout}>Logout</button>

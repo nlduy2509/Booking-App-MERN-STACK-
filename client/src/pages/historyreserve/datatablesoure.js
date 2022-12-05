@@ -45,12 +45,12 @@ export const userProfile = [
     {
       field: "nameReservator",
       headerName: "Tên người đặt",
-      width: 50,
+      width: 200,
     },
     {
         field: "phoneReservator",
         headerName: "Số điện thoại",
-        width: 50,
+        width: 0,
       },
     {
       field: "emailReservator",

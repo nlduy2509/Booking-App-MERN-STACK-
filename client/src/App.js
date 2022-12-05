@@ -9,7 +9,6 @@ import List from "./pages/list/List";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/register";
 import Reserve from "./components/reserve/Reserve.jsx";
-import { userHistory } from "./datatablesoure";
 import Historyreservations from "./pages/historyreserve/historyreservations";
 
 function App() {
@@ -21,7 +20,7 @@ function App() {
         <Route path="/hotels/:id" element={<Hotel/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
-        <Route path="/reservations" element={<Historyreservations columns = {userHistory}/>}/>
+        <Route path="/myreserve" element={<Historyreservations/>}/>
       </Routes>
     </BrowserRouter>
   );
