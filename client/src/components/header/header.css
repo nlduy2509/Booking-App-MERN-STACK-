@@ -8,8 +8,9 @@
 
 .headerContainer {
   width: 100%;
-  max-width: 1024px;
-  margin: 20px 0px 100px 0px;
+  max-width: 1030px;
+  /* margin: 20px 0px 100px 0px; */
+  height: 400px;
 }
 
 .headerContainer.listMode {
@@ -19,7 +20,7 @@
 .headerList {
   display: flex;
   gap: 40px;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 
 .headerListItem {

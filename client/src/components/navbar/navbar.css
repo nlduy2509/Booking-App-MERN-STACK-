@@ -17,6 +17,9 @@
 .logo{
   font-weight: 500;
   color: white;
+  font-size: 120%;
+  position: relative;
+  top:10px
 }
 
 .navButton{
@@ -25,10 +28,12 @@
   padding: 5px 10px;
   cursor: pointer;
   color: #003580;
+  border-radius: 30px;
 }
 
-span{
+span, img{
   margin-right: 10px;
+  cursor: pointer;
 }
 
 .img-user{
@@ -36,8 +41,36 @@ span{
   width: 30px;
   border-radius: 50%;
   margin-right: 20px;
+  position: relative;
+  top:10px
 }
 
 .user{
   display: block;
+}
+
+.select1{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 965px;
+  top: 50px;
+  z-index: 999;
+  transition: 0.5s;
+}
+
+.select2{
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  left: 965px;
+  top: 80px;
+  z-index: 999;
+  opacity: 0;
+  transition: 0.5s;
+}
+
+.button{
+  width: 150px;
+  height: 30px;
 }

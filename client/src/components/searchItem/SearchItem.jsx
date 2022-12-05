@@ -11,15 +11,15 @@ const SearchItem = ({ item , dates}) => {
       <img src={item.photos[0]} alt="" className="siImg" />
       <div className="siDesc">
         <h1 className="siTitle">{item.name}</h1>
-        <span className="siDistance">{item.distance}m from center</span>
-        <span className="siTaxiOp">Free airport taxi</span>
+        <span className="siDistance">{item.distance}m đến trung tâm thành phố</span>
+        <span className="siTaxiOp">Miễn phí đưa đón</span>
         <span className="siSubtitle">
-          Studio Apartment with Air conditioning
+          Đầy đủ nội thất
         </span>
         <span className="siFeatures">{item.desc}</span>
-        <span className="siCancelOp">Free cancellation </span>
+        <span className="siCancelOp">Hủy miễn phí </span>
         <span className="siCancelOpSubtitle">
-          You can cancel later, so lock in this great price today!
+        Bạn có thể hủy sau, vì vậy hãy chọn mức giá tuyệt vời ngay hôm nay!
         </span>
       </div>
       <div className="siDetails">
@@ -28,9 +28,9 @@ const SearchItem = ({ item , dates}) => {
           <button>{item.rating}</button>
         </div>}
         <div className="siDetailTexts">
-          <span className="siPrice">${item.cheapestPrice}</span>
-          <span className="siTaxOp">Includes taxes and fees</span>
-          <button onClick={()=>handleClickSeeAvai()} className="siCheckButton">See availability</button>
+          <span className="siPrice">{item.cheapestPrice}.000 VND</span>
+          <span className="siTaxOp">Đã bao gồm thuế và phí</span>
+          <button onClick={()=>handleClickSeeAvai()} className="siCheckButton">Xem chi tiết</button>
         </div>
       </div>
     </div>

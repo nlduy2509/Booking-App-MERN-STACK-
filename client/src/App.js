@@ -10,6 +10,7 @@ import Login from "./pages/login/Login";
 import Register from "./pages/register/register";
 import Reserve from "./components/reserve/Reserve.jsx";
 import Historyreservations from "./pages/historyreserve/historyreservations";
+import Profile from "./pages/profile/profile";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/register" element={<Register/>}/>
         <Route path="/myreserve" element={<Historyreservations/>}/>
+        <Route path="/profile" element={<Profile/>}/>
       </Routes>
     </BrowserRouter>
   );

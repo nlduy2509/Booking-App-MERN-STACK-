@@ -31,7 +31,7 @@ const Login = () => {
     setCredentials((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
 
-  const handleClick = async (e) => {
+  const handleClicklg = async (e) => {
     e.preventDefault();
     dispatch({ type: "LOGIN_START" });
     try {
@@ -63,16 +63,16 @@ const Login = () => {
           placeholder="Tên tài khoản"
           id="username"
           onChange={handleChange}
-          className="lInput"
+          className="tInput"
         />
         <input
           type="password"
           placeholder="Mật khẩu"
           id="password"
           onChange={handleChange}
-          className="lInput"
+          className="tInput"
         />
-        <button disabled={loading} onClick={handleClick} className="lButton">
+        <button disabled={loading} onClick={handleClicklg} className="lButton">
           Đăng nhập
         </button >
         <div>

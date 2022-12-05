@@ -161,11 +161,10 @@ const Hotel = () => {
             <RoomCard data={rooms} dataHotel={data} dates={dates}/>
             <br/>
             <span className="hotelDistance">
-              Excellent location – {data.distance}m from center
+              Địa điểm tuyệt vời – {data.distance}m đến trung tâm thành phố
             </span>
             <span className="hotelPriceHighlight">
-              Book a stay over ${data.cheapestPrice} at this property and get a
-              free airport taxi
+              Thuê ngay với giá {data.cheapestPrice}.000 VND đã bao gồm thuế và phí di chuyển
             </span>
             <div className="hotelImages">
               {data.photos?.map((photo, i) => (

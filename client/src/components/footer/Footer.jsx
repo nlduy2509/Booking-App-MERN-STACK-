@@ -8,10 +8,10 @@ const Footer = () => {
   return (
     <div className="footer">
       <div className="icon-container">
-        <FacebookIcon className="icon"></FacebookIcon>
-        <YouTubeIcon className="icon"></YouTubeIcon>
-        <InstagramIcon className="icon"></InstagramIcon>
-        <TwitterIcon className="icon"></TwitterIcon>
+        <FacebookIcon className="iconl"></FacebookIcon>
+        <YouTubeIcon className="iconl"></YouTubeIcon>
+        <InstagramIcon className="iconl"></InstagramIcon>
+        <TwitterIcon className="iconl"></TwitterIcon>
       </div>
       <div className="fText">Copyright © 2022 Booking App.</div>
     </div>

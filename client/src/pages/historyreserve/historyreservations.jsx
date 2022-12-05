@@ -71,7 +71,7 @@ const Historyreservations = () =>{
 
     return (<>
     <Navbar/>
-    <h2> Danh sách đơn đặt của bạn</h2>
+    <h2 className="title"> Danh sách đơn đặt của bạn</h2>
 
       <div style={{width:"95%",display:"flex",justifyItems:"center", padding:"36px"}}>
       <TableContainer component={Paper} className="table">

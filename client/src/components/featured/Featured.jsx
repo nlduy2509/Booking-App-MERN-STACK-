@@ -1,12 +1,47 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { SearchContext } from "../../context/SearchContext";
 import useFetch from "../../hooks/useFetch";
 import "./featured.css";
 
 const Featured = () => {
 
+  const [destination, setDestination] = useState("");
+  const [dates, setDates] = useState([
+    {
+      startDate: new Date(),
+      endDate: new Date(),
+      key: "selection",
+    },
+  ]);
+  const [options, setOptions] = useState({
+    adult: 1,
+    children: 0,
+    room: 1,
+  });
+  const navigate = useNavigate();
+  const {dispatch} = useContext(SearchContext)
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
+
+  const handleClickHCM = ()=>{
+    setDestination("HCM")
+    dispatch({type:"NEW_SEARCH", payload:{destination, dates, options}})
+    navigate("/hotels", { state: { destination, dates, options } });
+  }
+
+  const handleClickDN = ()=>{
+    
+  }
+
+  const handleClickHN = ()=>{
+    
+  }
+
+  const handleClickGL = ()=>{
+    
+  }
 
   useEffect(()=>{
     const fetchData = async () =>{
@@ -31,7 +66,7 @@ const Featured = () => {
         "Loading please wait"
       ) : (
         <>
-          <div className="featuredItem">
+          <div className="featuredItem" onClick={handleClickHCM}>
             <img
               src="https://th.bing.com/th/id/R.3f3aa79e5351feb2e6d36875a0d87cbb?rik=jS%2f1AHrGfioe9A&pid=ImgRaw&r=0"
               alt=""
@@ -43,7 +78,7 @@ const Featured = () => {
             </div>
           </div>
 
-          <div className="featuredItem">
+          <div className="featuredItem" onClick={handleClickDN}>
             <img
               src="https://www.telegraph.co.uk/content/dam/travel/Spark/Hayes-and-Jarvis/HayesJarvis-da-nang-night-getty-xlarge.jpg?imwidth=1200"
               alt=""
@@ -54,7 +89,7 @@ const Featured = () => {
               <h2>{data[1]} Khách sạn</h2>
             </div>
           </div>
-          <div className="featuredItem">
+          <div className="featuredItem" onClick={handleClickHN}>
             <img
               src="https://www.roadaffair.com/wp-content/uploads/2019/06/skyline-night-hanoi-vietnam-shutterstock_565108885.jpg"
               alt=""
@@ -65,7 +100,7 @@ const Featured = () => {
               <h2>{data[2]} Khách sạn</h2>
             </div>
           </div>
-          <div className="featuredItem">
+          <div className="featuredItem" onClick={handleClickGL}>
             <img
               src="https://th.bing.com/th/id/R.de9656ffefd21806a280efd483d14c7c?rik=HAKdoFzX1oE%2frw&pid=ImgRaw&r=0"
               alt=""
