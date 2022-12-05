@@ -13,13 +13,13 @@ import moment, { now } from "moment";
 const Chart = ({ aspect, title,reservations }) => {
 
   const nowMonth = moment().format("M")
-  const dataReserveNow = reservations.filter(e=>moment(e.dateCheckIn).format("M")==nowMonth||"")
-  const dataReserveNow1 = reservations.filter(e=>moment(e.dateCheckIn).format("M")==(nowMonth-1)||"")
-  const dataReserveNow2 = reservations.filter(e=>moment(e.dateCheckIn).format("M")==nowMonth-2||"")
-  const dataReserveNow3 = reservations.filter(e=>moment(e.dateCheckIn).format("M")==nowMonth-3||"")
-  const dataReserveNow4 = reservations.filter(e=>moment(e.dateCheckIn).format("M")==nowMonth-4||"")
-  const dataReserveNow5 = reservations.filter(e=>moment(e.dateCheckIn).format("M")==nowMonth-5||"")
-  console.log("dateReserves",dataReserveNow1);
+  const dataReserveNow = reservations.filter(e=>moment(e.dateCheckIn).format("M")==nowMonth  && e.status.id === 4||"")
+  const dataReserveNow1 = reservations.filter(e=>moment(e.dateCheckIn).format("M")==(nowMonth-1) && e.status.id === 4||"")
+  const dataReserveNow2 = reservations.filter(e=>moment(e.dateCheckIn).format("M")==nowMonth-2 && e.status.id === 4||"")
+  const dataReserveNow3 = reservations.filter(e=>moment(e.dateCheckIn).format("M")==nowMonth-3 && e.status.id === 4||"")
+  const dataReserveNow4 = reservations.filter(e=>moment(e.dateCheckIn).format("M")==nowMonth-4 && e.status.id === 4||"")
+  const dataReserveNow5 = reservations.filter(e=>moment(e.dateCheckIn).format("M")==nowMonth-5 && e.status.id === 4||"")
+  console.log("dateReserves",dataReserveNow4);
 
   let TotalNow = 0
   let TotalNow1 = 0

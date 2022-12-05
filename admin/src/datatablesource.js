@@ -4,7 +4,7 @@ export const userColumns = [
   {
     field: "fullName",
     headerName: "Họ và tên",
-    width: 230,
+    width: 250,
   },
   {
     field: "User",
@@ -22,7 +22,7 @@ export const userColumns = [
   {
     field: "email",
     headerName: "Mail",
-    width: 230,
+    width: 300,
   },
 
   // {
@@ -33,12 +33,12 @@ export const userColumns = [
   {
     field: "city",
     headerName: "Nơi ở",
-    width: 100,
+    width: 150,
   },
   {
     field: "phone",
     headerName: "Điện thoại",
-    width: 100,
+    width: 200,
   },
 ];
 
