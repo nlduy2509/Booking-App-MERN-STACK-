@@ -6,7 +6,7 @@ const router = express.Router();
 
 
 //UPDATE
-router.put("/:id", verifyUser, updatedReservation)
+router.put("/:id", updatedReservation)
 //DELETE
 //router.delete("/:id",verifyUser, deleteUser)
 //POST
