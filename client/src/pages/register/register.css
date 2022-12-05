@@ -1,20 +1,21 @@
 .register {
   margin-top: 0px;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-    background-color: #0071c28c;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #0071c28c;
   }
 
 .register-text{
   font-weight: 700;
   font-size: 120%;
+  margin-bottom: 20px;
 }
 
-span{
-  text-align: center;
+.h1-reg{
+  margin-top: 80px;
+  margin-bottom: 50px;
 }
   
   .lContainer {

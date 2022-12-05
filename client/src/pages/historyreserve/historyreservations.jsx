@@ -31,7 +31,6 @@ const Historyreservations = () =>{
         setList(response.data)
       };
       fetchData(); 
-      console.log("data", List);
      
     },[user])
 

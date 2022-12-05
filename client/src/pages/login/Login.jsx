@@ -55,32 +55,32 @@ const Login = () => {
 
   return (
     <div className="login">
-      <h1>WELCOME TO BOOKING APP </h1>
-      <span className="login-text">LOGIN</span>
+      <h1>CHÀO MỪNG BẠN ĐẾN VỚI BOOKING APP </h1>
+      <span className="login-text">ĐĂNG NHẬP</span>
       <div className="lContainer">
         <input
           type="text"
-          placeholder="username"
+          placeholder="Tên tài khoản"
           id="username"
           onChange={handleChange}
           className="lInput"
         />
         <input
           type="password"
-          placeholder="password"
+          placeholder="Mật khẩu"
           id="password"
           onChange={handleChange}
           className="lInput"
         />
         <button disabled={loading} onClick={handleClick} className="lButton">
-          Login
+          Đăng nhập
         </button >
         <div>
           {/* ==============Login GG============== */}
           <GoogleLogin
           style={{width:"500px",}}
             clientId={clientId}
-            buttonText="Đăng nhập với Google"
+            buttonText="Đăng nhập với tài khoản Google"
             uxMode="popup"
             onSuccess={(res) => handleOnSuccess(res)
             }
@@ -102,7 +102,7 @@ const Login = () => {
           /> */}
         </div>
         <span>
-          You are not a member? <a href="/register"> Sign up</a>{" "}
+          Bạn chưa có tài khoản? <a href="/register"> Đăng ký ngay</a>{" "}
         </span>
         {error && <span>{error.message}</span>}
       </div>

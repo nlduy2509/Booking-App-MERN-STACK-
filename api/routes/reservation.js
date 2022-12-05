@@ -12,7 +12,7 @@ router.put("/:id", verifyUser, updatedReservation)
 //POST
 router.post("/create/:id",verifyUser, createReservation)
 //GETALL
-router.get("/:id", getMyReserve)
+router.get("/:id",verifyUser, getMyReserve)
 router.get("/",verifyAdmin, getAllReservation)
 
 export default router

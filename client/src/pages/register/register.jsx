@@ -30,55 +30,55 @@ const Register = () => {
 
   return (
     <div className="register">
-      <h1>WELCOME TO BOOKING APP </h1>
-      <span className="register-text">Register</span>
+      <h1 className="h1-reg">CHÀO MỪNG ĐẾN VỚI BOOKING APP </h1>
+      <div className="register-text">ĐĂNG KÝ</div>
       <div className="lContainer">
         <input
           type="text"
-          placeholder="username"
+          placeholder="Tên tài khoản"
           id="username"
           onChange={handleChange}
           className="lInput"
         />
         <input
           type="password"
-          placeholder="password"
+          placeholder="Mật khẩu"
           id="password"
           onChange={handleChange}
           className="lInput"
         />
         <input
+          type="text"
+          placeholder="Tên đầy đủ"
+          id="fullName"
+          onChange={handleChange}
+          className="lInput"
+        />
+        <input
           type="email"
-          placeholder="email"
+          placeholder="Email"
           id="email"
           onChange={handleChange}
           className="lInput"
         />
         <input
           type="text"
-          placeholder="country"
+          placeholder="Quốc tịch"
           id="country"
           onChange={handleChange}
           className="lInput"
         />
         <input
-          type="text"
-          placeholder="city"
-          id="city"
-          onChange={handleChange}
-          className="lInput"
-        />
-        <input
           type="number"
-          placeholder="phone number"
+          placeholder="Số điện thoại"
           id="phone"
           onChange={handleChange}
           className="lInput"
         />
         <button disabled={loading} onClick={handleClick} className="lButton">
-          Register
+          Đăng ký
         </button>
-        <span>You are ready? <a href="/login">Login</a> </span>
+        <span>Bạn đã có tài khoản? <a href="/login">Đăng nhập ngay</a> </span>
         {error && <span>{error.message}</span>}
       </div>
     </div>

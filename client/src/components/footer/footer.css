@@ -4,20 +4,18 @@
   font-size: 12px;
 }
 
-.fLists{
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 50px;
-}
-
-.fList{
+.fText{
   list-style: none;
+  align-items: center;
+  text-align: center;
   padding: 0;
 }
 
-.fListItem{
-  margin-bottom: 10px;
-  color: #003580;
-  cursor: pointer;
+.icon-container{
+  text-align: center;
+}
+
+.icon{
+  padding: 10px;
+  font-size: 20px
 }
