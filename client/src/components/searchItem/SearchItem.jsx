@@ -2,6 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 // import Rating from '@mui/material/Rating';
 import {Rating,Box,Stack,Chip} from '@mui/material'
 import WifiIcon from '@mui/icons-material/Wifi';
+import LocalParkingIcon from '@mui/icons-material/LocalParking';
+import FaceIcon from '@mui/icons-material/Face';
+import HotelIcon from '@mui/icons-material/Hotel';
 import "./searchItem.css";
 
 const SearchItem = ({ item , dates}) => {
@@ -30,9 +33,13 @@ const SearchItem = ({ item , dates}) => {
             ))}
         </ul>
 
-        <Stack direction="row" spacing={1}>
+        <Stack direction="row" spacing={2}>
       <Chip sx={{backgroundColor:'pink'}} icon={<WifiIcon/>} label="Wifi free" />
-      <Chip label="Chip Outlined" variant="outlined" />
+      <Chip sx={{backgroundColor:'pink'}} icon={<LocalParkingIcon/>} label="Chỗ để xe"/>
+    </Stack>
+        <Stack direction="row" spacing={1}>
+      <Chip sx={{backgroundColor:'pink'}} icon={<FaceIcon/>} label="Lễ tân 24 giờ"/>
+      <Chip sx={{backgroundColor:'pink'}} icon={<HotelIcon/>} label="Dịch vụ phòng"/>
     </Stack>
             
         {/* <span className="siFeatures">{item.desc}</span> */}

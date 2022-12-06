@@ -2,7 +2,7 @@ import "./list.css";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import { useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { format } from "date-fns";
 import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
@@ -22,12 +22,15 @@ const ListData = () => {
   const [max, setMax] = useState(undefined);
 
   const [allHotel,setAllHotel]=useState([])
-
+  const [hotelsFilter,setHotelsFilter]=useState([])
+  
+  const [checkedRating, setCheckedRating] = useState([]);
+  const [checkedFeatured, setCheckedFeatured] = useState([]);
   // const { data, loading, error, reFetch } = useFetch(
   //   `/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
   // );
 
-  useEffect(()=>{
+  useLayoutEffect(()=>{
     const fetchData=async()=>{
       const res = await axios.get(`/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`)
       setAllHotel(res.data)
@@ -42,8 +45,8 @@ const ListData = () => {
     // reFetch();
   };
 
-  const [checkedRating, setCheckedRating] = useState([]);
-  const [checkedFeatured, setCheckedFeatured] = useState([]);
+  console.log("hotelsFilter",hotelsFilter);
+
 
   return (
     <div>
@@ -130,11 +133,11 @@ const ListData = () => {
               <h2 style={{ marginBottom: "8px" }}>Chọn lọc theo: </h2>
               <FilterHotels
                 allHotel={allHotel}
-                setAllHotel={setAllHotel}
                 checkedRating={checkedRating}
                 setCheckedRating={setCheckedRating}
                 checkedFeatured={checkedFeatured}
                 setCheckedFeatured={setCheckedFeatured}
+                setHotelsFilter={setHotelsFilter}
               />
             </div>
           </div>
@@ -142,9 +145,14 @@ const ListData = () => {
           <div className="listResult">
             <h2>Danh sách các khách sạn phù hợp</h2>
             <br />
-                {allHotel.map((item) => (
-                  <SearchItem dates={dates} item={item} key={item._id} />
-                ))}
+            {
+              checkedRating.length===0 && checkedFeatured.length===0?allHotel.map((item) => (
+                <SearchItem dates={dates} item={item} key={item._id} />
+              )):hotelsFilter.map((item) => (
+                <SearchItem dates={dates} item={item} key={item._id} />
+              ))
+            }
+                
           </div>
         </div>
       </div>
