@@ -19,7 +19,7 @@ import { Alert, Snackbar } from "@mui/material";
 
 const Historyreservations = () =>{
     const { user } = useContext(AuthContext);
-    const [List, setList] = useState([]);
+    const [list, setList] = useState([]);
     const [rePage,setRePage]= useState(false)
     const [check,setCheck]=useState(false)
     // const fetchData = async () => {
@@ -31,16 +31,17 @@ const Historyreservations = () =>{
           
     useEffect(()=>{
       const fetchData = async () => {
-        const response = await axios.get(`/reservations/${user._id}`,{});
+        const response = await axios.get(`/reservations/${user._id}`);
         setList(response.data)
         setRePage(false)
         setCheck(false)
       };
-      fetchData(); 
+      fetchData();
+      console.log("LIST",list); 
      
-    },[user,rePage])
+    },[user._id,rePage])
 
-    let rows = List.map(e=>({
+    let rows = list.map(e=>({
       nameReservator:e.nameReservator,
         nameHotel:e.nameHotel,
         nameRoom:e.nameRoom,
@@ -106,7 +107,7 @@ const Historyreservations = () =>{
                   <span className={`status ${row.status.id===1?"waiting":"Approved"}`}>{row.status.name}</span>
                 </TableCell>
                 <TableCell className="tableCell">                
-                  {row.status.id===1?<button onClick={()=>handleClickCancel(row.id)}>Huỷ</button>:<span></span>}
+                  {row.status.id===1?<button style={{cursor:"pointer"}} onClick={()=>handleClickCancel(row.id)}>Huỷ</button>:<span></span>}
                 </TableCell>
 
               </TableRow>

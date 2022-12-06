@@ -29,7 +29,7 @@ const Hotel = () => {
   const [data, setData] = useState([]);
   const [dates,setDates]= useState(location.state.dates)
   
-
+  console.log("location",location);
   //const {data, loading, error} = useFetch(`/hotels/find/${id}`)
 
   useEffect(()=>{

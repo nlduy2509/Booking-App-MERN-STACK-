@@ -7,7 +7,7 @@ import "./featured.css";
 
 const Featured = () => {
 
-  const [destination, setDestination] = useState("");
+
   const [dates, setDates] = useState([
     {
       startDate: new Date(),
@@ -25,22 +25,28 @@ const Featured = () => {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
 
-  const handleClickHCM = ()=>{
-    setDestination("HCM")
+  const handleClickHCM = (value)=>{
+    const destination = value
     dispatch({type:"NEW_SEARCH", payload:{destination, dates, options}})
     navigate("/hotels", { state: { destination, dates, options } });
   }
 
-  const handleClickDN = ()=>{
-    
+  const handleClickDN = (value)=>{
+    const destination = value
+    dispatch({type:"NEW_SEARCH", payload:{destination, dates, options}})
+    navigate("/hotels", { state: { destination, dates, options } });
   }
 
-  const handleClickHN = ()=>{
-    
+  const handleClickHN = (value)=>{
+    const destination = value
+    dispatch({type:"NEW_SEARCH", payload:{destination, dates, options}})
+    navigate("/hotels", { state: { destination, dates, options } });
   }
 
-  const handleClickGL = ()=>{
-    
+  const handleClickGL = (value)=>{
+    const destination = value
+    dispatch({type:"NEW_SEARCH", payload:{destination, dates, options}})
+    navigate("/hotels", { state: { destination, dates, options } });
   }
 
   useEffect(()=>{
@@ -66,7 +72,7 @@ const Featured = () => {
         "Loading please wait"
       ) : (
         <>
-          <div className="featuredItem" onClick={handleClickHCM}>
+          <div className="featuredItem" onClick={()=>handleClickHCM("HCM")}>
             <img
               src="https://th.bing.com/th/id/R.3f3aa79e5351feb2e6d36875a0d87cbb?rik=jS%2f1AHrGfioe9A&pid=ImgRaw&r=0"
               alt=""
@@ -78,7 +84,7 @@ const Featured = () => {
             </div>
           </div>
 
-          <div className="featuredItem" onClick={handleClickDN}>
+          <div className="featuredItem" onClick={()=>handleClickDN("DANANG")}>
             <img
               src="https://www.telegraph.co.uk/content/dam/travel/Spark/Hayes-and-Jarvis/HayesJarvis-da-nang-night-getty-xlarge.jpg?imwidth=1200"
               alt=""
@@ -89,7 +95,7 @@ const Featured = () => {
               <h2>{data[1]} Khách sạn</h2>
             </div>
           </div>
-          <div className="featuredItem" onClick={handleClickHN}>
+          <div className="featuredItem" onClick={()=>handleClickHN("HANOI")}>
             <img
               src="https://www.roadaffair.com/wp-content/uploads/2019/06/skyline-night-hanoi-vietnam-shutterstock_565108885.jpg"
               alt=""
@@ -100,7 +106,7 @@ const Featured = () => {
               <h2>{data[2]} Khách sạn</h2>
             </div>
           </div>
-          <div className="featuredItem" onClick={handleClickGL}>
+          <div className="featuredItem" onClick={()=>handleClickGL("GIALAI")}>
             <img
               src="https://th.bing.com/th/id/R.de9656ffefd21806a280efd483d14c7c?rik=HAKdoFzX1oE%2frw&pid=ImgRaw&r=0"
               alt=""
