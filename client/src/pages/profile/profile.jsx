@@ -64,7 +64,7 @@ const Profile = () =>{
       };
       fetchData(); 
      
-    },[user,rePage])
+    },[user._id,rePage])
     console.log("List", List.username)
 
     return(

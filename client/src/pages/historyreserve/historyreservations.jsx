@@ -22,13 +22,7 @@ const Historyreservations = () =>{
     const [list, setList] = useState([]);
     const [rePage,setRePage]= useState(false)
     const [check,setCheck]=useState(false)
-    // const fetchData = async () => {
-    //     const response = await axios.get(`/reservations/${user._id}`,{});
-    //     console.log("data", response.data);
-    //     setList(response.data)
-    //     console.log("List", List)
-    // };
-          
+
     useEffect(()=>{
       const fetchData = async () => {
         const response = await axios.get(`/reservations/${user._id}`);
@@ -52,7 +46,8 @@ const Historyreservations = () =>{
         id:e._id         
   }))
     rows=rows.reverse()
-
+    
+    console.log("user",user);
 
     const handleClickCancel=async(value)=>{
       const body={

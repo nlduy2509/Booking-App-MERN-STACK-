@@ -24,6 +24,7 @@ export const updatedReservation = async (req, res, next) => {
 };
 
 export const getMyReserve = async (req,res,next)=>{
+  console.log("id",req.params.id)
   try {
     const myReservation = await reservation.find({idUser:req.params.id});
     res.status(200).json(myReservation);
