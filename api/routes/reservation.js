@@ -10,7 +10,7 @@ router.put("/:id", updatedReservation)
 //DELETE
 //router.delete("/:id",verifyUser, deleteUser)
 //POST
-router.post("/create/:id",verifyUser, createReservation)
+router.post("/create/:id", createReservation)
 //GETALL
 router.get("/:id", getMyReserve)
 router.get("/",verifyAdmin, getAllReservation)
