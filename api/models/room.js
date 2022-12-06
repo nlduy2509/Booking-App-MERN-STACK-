@@ -13,9 +13,34 @@ const RoomSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
+    numberAdult: {
+      type: Number,
+      required: true,
+    },
+    numberChild: {
+      type: Number,
+      required: true,
+    },
     desc: {
       type: String,
       required: true,
+    },
+    distance: {
+      type: Number,
+      required: true,
+    },
+    numberBed: {
+      type: Number,
+      required: true,
+    },
+    featured:[
+      {
+        key:String,
+        name:String
+      }
+    ],
+    photos:{
+      type: [String],
     },
     roomNumbers: [{ number: Number, unavailableDates: {type: [Date]}}],
   },
