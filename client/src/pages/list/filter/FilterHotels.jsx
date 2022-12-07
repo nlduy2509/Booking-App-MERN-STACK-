@@ -48,14 +48,13 @@ const FilterHotels = (props) => {
     },
     {
       key: "giaitri",
-      name: "khu vực giải trí và trò chơi",
+      name: "Khu vực giải trí và trò chơi",
       _id: "638ee526c3685b6adde702e2",
     },
   ];
 
   const handleToggle = (value) => () => {
     const newData = allHotel.filter(e=>e.rating === value)
-    console.log("newData",newData);
     let newChecked;
     if (checkedRating.length === 0) {
       newChecked = [value];
@@ -71,6 +70,22 @@ const FilterHotels = (props) => {
   };
 
   const handleCheckedFeature = (value) => () => {
+    console.log("value",value)
+    console.log("checkedFea", checkedFeatured)
+    let data = []
+
+    for (let index = 0; index < allHotel.length; index++) {
+      let array = []
+      let featured = allHotel[index].featured.filter(i=>i.key===value.key)
+      console.log("first",featured)
+      if (JSON.stringify(featured)!==JSON.stringify(array)) {
+        const newData = allHotel.filter(e=>e._id===allHotel[index]._id)
+        data = data.concat(newData)
+        console.log("data",data)
+        setHotelsFilter(data)
+        featured= []
+      }
+    }
     let newChecked;
     let check;
     let count;
@@ -78,9 +93,9 @@ const FilterHotels = (props) => {
       check = false;
     } else {
       count = checkedFeatured.filter((e) => e._id === value._id).length;
-      if (count > 0) {
+      if (count > 0) {      
         check = true;
-      } else {
+      } else {  
         check = false;
       }
     }
@@ -90,9 +105,11 @@ const FilterHotels = (props) => {
       newChecked = checkedFeatured.concat(value);
     }
     setCheckedFeatured(newChecked);
+    console.log("newchecked",newChecked)
+    console.log("checked", checkedFeatured)
   };
 
-  console.log("dataHotel", allHotel);
+  // console.log("dataHotel", allHotel);
   return (
     <>
       <h3>Xếp hạng sao</h3>
