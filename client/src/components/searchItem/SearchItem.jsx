@@ -6,6 +6,7 @@ import LocalParkingIcon from '@mui/icons-material/LocalParking';
 import FaceIcon from '@mui/icons-material/Face';
 import HotelIcon from '@mui/icons-material/Hotel';
 import "./searchItem.css";
+import FormatPrice from "../Format/Format";
 
 const SearchItem = ({ item , dates}) => {
   const navigate= useNavigate()
@@ -52,7 +53,7 @@ const SearchItem = ({ item , dates}) => {
           <span className="siTaxiOp">Miễn phí đưa đón</span>
         </div>}
         <div className="siDetailTexts">
-          <span className="siPrice"> giá chỉ từ: {item.minPrice} VND</span>
+          <span className="siPrice"> <b style={{color:"green"}}>giá chỉ từ: </b><br/>{ FormatPrice(item.minPrice)}</span>
           <span className="siTaxOp">Đã bao gồm thuế và phí</span>
           <button style={{width:"180px"}} onClick={()=>handleClickSeeAvai()} className="siCheckButton">Xem chi tiết</button>
         </div>
