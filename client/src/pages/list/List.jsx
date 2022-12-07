@@ -26,6 +26,8 @@ const ListData = () => {
   
   const [checkedRating, setCheckedRating] = useState([]);
   const [checkedFeatured, setCheckedFeatured] = useState([]);
+  const [flag, setFlag] = useState([])
+
   // const { data, loading, error, reFetch } = useFetch(
   //   `/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
   // );
@@ -138,6 +140,9 @@ const ListData = () => {
                 checkedFeatured={checkedFeatured}
                 setCheckedFeatured={setCheckedFeatured}
                 setHotelsFilter={setHotelsFilter}
+                hotelsFilter={hotelsFilter}
+                flag={flag}
+                setFlag={setFlag}
               />
             </div>
           </div>
@@ -146,11 +151,26 @@ const ListData = () => {
             <h2>Danh sách các khách sạn phù hợp</h2>
             <br />
             {
-              checkedRating.length===0 && checkedFeatured.length===0?allHotel.map((item) => (
-                <SearchItem dates={dates} item={item} key={item._id} />
-              )):hotelsFilter.map((item) => (
-                <SearchItem dates={dates} item={item} key={item._id} />
-              ))
+              checkedRating.length===0 && checkedFeatured.length===0?allHotel.map((item) => {
+                console.log("step one")
+                return(<SearchItem dates={dates} item={item} key={item._id} />)
+              }
+                
+                
+              ):(
+                checkedRating.length>0 || checkedFeatured.length>0 ? 
+                         
+               hotelsFilter.map((item)=>{
+                console.log("step-two")
+                return(<SearchItem dates={dates} item={item} key={item._id} />)
+               }
+               ):
+               flag.map((item) => {
+                console.log("step-three")
+                return(<SearchItem dates={dates} item={item} key={item._id} />)
+             }   
+                
+               ))
             }
                 
           </div>

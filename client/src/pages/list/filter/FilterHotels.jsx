@@ -17,9 +17,13 @@ const FilterHotels = (props) => {
     setCheckedRating,
     checkedFeatured,
     setCheckedFeatured,
-    setHotelsFilter
+    setHotelsFilter,
+    hotelsFilter,
+    flag,
+    setFlag
   } = props;
 
+ 
   const featuredHotel = [
     {
       key: "gym",
@@ -58,23 +62,49 @@ const FilterHotels = (props) => {
     let newChecked;
     if (checkedRating.length === 0) {
       newChecked = [value];
+      setFlag(newData)
+      setHotelsFilter(newData)
     } else {
       if (checkedRating[0] === value) {
         newChecked = [];
+        if(checkedFeatured.length>0){
+          let data = []
+          for (let index = 0; index < allHotel.length; index++) {
+            let array = []
+            let featured = allHotel[index].featured.filter(i=>i.key===checkedFeatured[0].key)
+            console.log("first",featured)
+            if (JSON.stringify(featured)!==JSON.stringify(array)) {
+              const newData = allHotel.filter(e=>e._id===allHotel[index]._id)
+              data = data.concat(newData)
+              console.log("data",data)
+              setHotelsFilter(data)
+              featured= []
+            }else{
+              setHotelsFilter(array)
+            }
+          }
+        }else{
+          setFlag([])
+        }
       } else {
         newChecked = [value];
+        setFlag(newData)
+        setHotelsFilter(newData)
       }
     }
-    setHotelsFilter(newData)
+
+    // setFlag(newData)
+    
     setCheckedRating(newChecked);
   };
-
+  
+  
   const handleCheckedFeature = (value) => () => {
-    console.log("value",value)
-    console.log("checkedFea", checkedFeatured)
     let data = []
+    let filterdata = []
 
-    for (let index = 0; index < allHotel.length; index++) {
+    if (checkedRating.length===0) {
+      for (let index = 0; index < allHotel.length; index++) {
       let array = []
       let featured = allHotel[index].featured.filter(i=>i.key===value.key)
       console.log("first",featured)
@@ -84,8 +114,78 @@ const FilterHotels = (props) => {
         console.log("data",data)
         setHotelsFilter(data)
         featured= []
+      }else{
+        setHotelsFilter(array)
       }
     }
+    }else if(checkedFeatured.length===0){
+      for (let index = 0; index < hotelsFilter.length; index++) {
+        let array = []
+        let featured = hotelsFilter[index].featured.filter(i=>i.key===value.key)
+        console.log("first-0",featured)
+        if (JSON.stringify(featured)!==JSON.stringify(array)) {
+          const newData = flag.filter(e=>e._id===hotelsFilter[index]._id)
+          data = data.concat(newData)
+          console.log("data-0",data)
+          setHotelsFilter(data)
+          featured= []
+        }else{
+          setHotelsFilter(array)
+        }
+      }
+    }else{
+      for (let index = 0; index <hotelsFilter.length; index++) {
+        let array = []
+        if(checkedFeatured.some(e=>e._id === value._id)){
+         
+          const newFeatured = checkedFeatured.filter(e=>e._id !== value._id)
+          for (let index = 0; index < newFeatured.length; index++) {
+            let newfilterfeatured =hotelsFilter[index].featured.filter(i=>i.key===newFeatured[index].key)
+            if (JSON.stringify(newfilterfeatured)!==JSON.stringify(array)) {
+              const newData = hotelsFilter.filter(e=>e._id===hotelsFilter[index]._id)
+              filterdata = filterdata.concat(newData)
+              console.log("data-flag",filterdata)
+              setHotelsFilter(filterdata)
+              newfilterfeatured= []
+            }else setHotelsFilter(array)
+        }
+      }else{
+          
+          let featured =hotelsFilter[index].featured.filter(i=>i.key===value.key)
+          console.log("first-flag",featured)
+          if (JSON.stringify(featured)!==JSON.stringify(array)) {
+          const newData = hotelsFilter.filter(e=>e._id===hotelsFilter[index]._id)
+          data = data.concat(newData)
+          console.log("data-flag",data)
+          setHotelsFilter(data)
+          featured= []
+        }else{
+          setHotelsFilter(array)
+        }
+        // }else{
+        //   let array = []
+        //   let featured =hotelsFilter[index].featured.filter(i=>i.key===value.key)
+        //   console.log("first-flag",featured)
+        //   if (JSON.stringify(featured)!==JSON.stringify(array)) {
+        //   const newData = hotelsFilter.filter(e=>e._id===hotelsFilter[index]._id)
+        //   data = data.concat(newData)
+        //   console.log("data-flag",data)
+        //   setHotelsFilter(data)
+        //   featured= []
+        // }else{
+        //   setHotelsFilter(array)
+        // }
+        // }
+        
+      }
+    }
+  }
+
+    if (JSON.stringify(checkedFeatured)!==JSON.stringify(data)) {
+      handleToggle(checkedRating[0])
+    }
+    console.log("condition",JSON.stringify(checkedFeatured)===JSON.stringify(data))
+
     let newChecked;
     let check;
     let count;
@@ -105,9 +205,13 @@ const FilterHotels = (props) => {
       newChecked = checkedFeatured.concat(value);
     }
     setCheckedFeatured(newChecked);
-    console.log("newchecked",newChecked)
-    console.log("checked", checkedFeatured)
+   
   };
+  console.log("checkedFeature", checkedFeatured)
+  console.log("flag",flag)
+  console.log("rating", checkedRating)
+  console.log("hotelfilter", hotelsFilter)
+  console.log("allHotel", allHotel)
 
   // console.log("dataHotel", allHotel);
   return (
