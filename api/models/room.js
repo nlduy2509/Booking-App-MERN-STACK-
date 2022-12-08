@@ -39,6 +39,12 @@ const RoomSchema = new mongoose.Schema(
         name:String
       }
     ],
+    roomPolicy:[
+      {
+        key:String,
+        name:String
+      }
+    ],
     photos:{
       type: [String],
     },

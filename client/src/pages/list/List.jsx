@@ -8,7 +8,6 @@ import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
 import useFetch from "../../hooks/useFetch";
 
-import FilterHotels from "./filter/FilterHotels";
 import { useEffect } from "react";
 import axios from "axios";
 import FilterHotel from "./filter/FilterHotel";
