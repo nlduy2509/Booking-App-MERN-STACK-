@@ -11,6 +11,7 @@ import useFetch from "../../hooks/useFetch";
 import FilterHotels from "./filter/FilterHotels";
 import { useEffect } from "react";
 import axios from "axios";
+import FilterHotel from "./filter/FilterHotel";
 
 const ListData = () => {
   const location = useLocation();
@@ -26,7 +27,8 @@ const ListData = () => {
   
   const [checkedRating, setCheckedRating] = useState([]);
   const [checkedFeatured, setCheckedFeatured] = useState([]);
-  const [flag, setFlag] = useState([])
+  const [hotelsFilterRating, setHotelFilterRating] = useState([])
+  const [hotelsFilterFeatured, setHotelFilterFeatured] = useState([])
 
   // const { data, loading, error, reFetch } = useFetch(
   //   `/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
@@ -40,14 +42,26 @@ const ListData = () => {
     fetchData()
   },[])
 
-  console.log("allHotels",allHotel);
-  
-
   const handleClick = () => {
     // reFetch();
   };
+  const array_is_unique = (arrayA, arrayB) =>{
+    let array = []
+    for (let index = 0; index < arrayA.length; index++) {
+        for (let items = 0; items < arrayB.length; items++) {
+            if(arrayA[index]._id === arrayB[items]._id){
+                array = array.concat(arrayA[index])
+                break
+            }
+        }
+    }
+    setHotelsFilter(array)
+  }
+  useEffect(()=>{
+    array_is_unique(hotelsFilterRating,hotelsFilterFeatured)
+  },[checkedFeatured,checkedRating])
+ 
 
-  console.log("hotelsFilter",hotelsFilter);
 
 
   return (
@@ -133,7 +147,7 @@ const ListData = () => {
             </div>
             <div className="filter">
               <h2 style={{ marginBottom: "8px" }}>Chọn lọc theo: </h2>
-              <FilterHotels
+              <FilterHotel
                 allHotel={allHotel}
                 checkedRating={checkedRating}
                 setCheckedRating={setCheckedRating}
@@ -141,8 +155,10 @@ const ListData = () => {
                 setCheckedFeatured={setCheckedFeatured}
                 setHotelsFilter={setHotelsFilter}
                 hotelsFilter={hotelsFilter}
-                flag={flag}
-                setFlag={setFlag}
+                hotelsFilterRating={hotelsFilterRating}
+                setHotelFilterRating={setHotelFilterRating}
+                hotelsFilterFeatured={hotelsFilterFeatured}
+                setHotelFilterFeatured={setHotelFilterFeatured}
               />
             </div>
           </div>
@@ -154,23 +170,21 @@ const ListData = () => {
               checkedRating.length===0 && checkedFeatured.length===0?allHotel.map((item) => {
                 console.log("step one")
                 return(<SearchItem dates={dates} item={item} key={item._id} />)
-              }
-                
-                
+              }      
               ):(
-                checkedRating.length>0 || checkedFeatured.length>0 ? 
-                         
-               hotelsFilter.map((item)=>{
-                console.log("step-two")
-                return(<SearchItem dates={dates} item={item} key={item._id} />)
-               }
-               ):
-               flag.map((item) => {
+              (checkedRating.length>0 && checkedFeatured.length>0) ? 
+                  hotelsFilter.map((item)=>{
+                  console.log("step-two")
+                  return(<SearchItem dates={dates} item={item} key={item._id} />)
+                  }
+              ):(checkedRating.length>0? hotelsFilterRating.map((item)=>{
                 console.log("step-three")
                 return(<SearchItem dates={dates} item={item} key={item._id} />)
-             }   
-                
-               ))
+              }):hotelsFilterFeatured.map((item)=>{
+                console.log("step-four")
+                return(<SearchItem dates={dates} item={item} key={item._id} />)
+              }))
+              )
             }
                 
           </div>
