@@ -8,7 +8,7 @@ import { DateRange } from "react-date-range";
 import SearchItem from "../../components/searchItem/SearchItem";
 import useFetch from "../../hooks/useFetch";
 
-import FilterHotels from "./filter/FilterHotels";
+
 import { useEffect } from "react";
 import axios from "axios";
 import FilterHotel from "./filter/FilterHotel";
@@ -72,79 +72,9 @@ const ListData = () => {
         <div className="listWrapper">
           <div className="list">
             <div className="listSearch">
-              <h1 className="lsTitle">Tìm kiếm</h1>
-              <div className="lsItem">
-                <label>Tên địa điểm</label>
-                <input placeholder={destination} type="text" />
-              </div>
-              <div className="lsItem">
-                <label>Ngày nhận-trả phòng</label>
-                <span onClick={() => setOpenDate(!openDate)}>{`${format(
-                  dates[0].startDate,
-                  "dd/MM/yyyy"
-                )} to ${format(dates[0].endDate, "dd/MM/yyyy")}`}</span>
-                {openDate && (
-                  <DateRange
-                    onChange={(item) => setDates([item.selection])}
-                    minDate={new Date()}
-                    ranges={dates}
-                  />
-                )}
-              </div>
-              <div className="lsItem">
-                <label>Tùy chọn</label>
-                <div className="lsOptions">
-                  <div className="lsOptionItem">
-                    <span className="lsOptionText">
-                      Giá thấp nhất <small>một đêm</small>
-                    </span>
-                    <input
-                      type="number"
-                      onChange={(e) => setMin(e.target.value)}
-                      className="lsOptionInput"
-                    />
-                  </div>
-                  <div className="lsOptionItem">
-                    <span className="lsOptionText">
-                      Giá cao nhất <small>một đêm</small>
-                    </span>
-                    <input
-                      type="number"
-                      onChange={(e) => setMax(e.target.value)}
-                      className="lsOptionInput"
-                    />
-                  </div>
-                  <div className="lsOptionItem">
-                    <span className="lsOptionText">Người lớn</span>
-                    <input
-                      type="number"
-                      min={1}
-                      className="lsOptionInput"
-                      placeholder={options.adult}
-                    />
-                  </div>
-                  <div className="lsOptionItem">
-                    <span className="lsOptionText">Trẻ em</span>
-                    <input
-                      type="number"
-                      min={0}
-                      className="lsOptionInput"
-                      placeholder={options.children}
-                    />
-                  </div>
-                  <div className="lsOptionItem">
-                    <span className="lsOptionText">Phòng</span>
-                    <input
-                      type="number"
-                      min={1}
-                      className="lsOptionInput"
-                      placeholder={options.room}
-                    />
-                  </div>
-                </div>
-              </div>
-              <button onClick={handleClick}>Tìm kiếm</button>
+              Sắp xếp kết quả
             </div>
+             
             <div className="filter">
               <h2 style={{ marginBottom: "8px" }}>Chọn lọc theo: </h2>
               <FilterHotel
