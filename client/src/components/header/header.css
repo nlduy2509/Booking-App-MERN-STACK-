@@ -45,6 +45,8 @@
   font-weight: 500;
   border: none;
   padding: 10px;
+  border-radius: 5px;
+  width: 120px;
   cursor: pointer;
 }
 
@@ -58,13 +60,13 @@
   padding: 10px 0px;
   border-radius: 5px;
   position: absolute;
-  bottom: -25px;
+  bottom: -12px;
   width: 100%;
   max-width: 1024px;
 }
 
 .headerIcon {
-  color: lightgray;
+  color: rgb(42, 140, 231);
 }
 
 .headerSearchItem {
