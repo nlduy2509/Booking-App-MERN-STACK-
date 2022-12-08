@@ -69,10 +69,12 @@ const Header = ({ type }) => {
         }
       >
         <div className="headerList">
-          <Slider></Slider>
+          <Slider/>
         </div>
-        {type !== "list" && (
-          <>
+        {/* {type !== "list" && (
+          
+        )} */}
+        <>
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
@@ -108,7 +110,7 @@ const Header = ({ type }) => {
                 <span
                   onClick={() => setOpenOptions(!openOptions)}
                   className="headerSearchText"
-                >{`${options.adult} Người lớn - ${options.children} Trẻ em - ${options.room} Phòng`}</span>
+                >{`${options.adult} Người lớn - ${options.children} Trẻ em`}</span>
                 {openOptions && (
                   <div className="options">
                     <div className="optionItem">
@@ -153,7 +155,7 @@ const Header = ({ type }) => {
                         </button>
                       </div>
                     </div>
-                    <div className="optionItem">
+                    {/* <div className="optionItem">
                       <span className="optionText">Phòng</span>
                       <div className="optionCounter">
                         <button
@@ -173,7 +175,7 @@ const Header = ({ type }) => {
                           +
                         </button>
                       </div>
-                    </div>
+                    </div> */}
                   </div>
                 )}
               </div>
@@ -184,7 +186,6 @@ const Header = ({ type }) => {
               </div>
             </div>
           </>
-        )}
       </div>
     </div>
   );
