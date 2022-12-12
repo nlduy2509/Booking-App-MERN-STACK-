@@ -68,10 +68,12 @@ const Datatable = ({ columns }) => {
             setList(newData);
           }else if(state==="confirm"){
             const newData = response.data.filter(e=>e.status.id===2)
+            newData.reverse()
             setList(newData);
           }
           else if(state==="cancel"){
             const newData = response.data.filter(e=>e.status.id===3)
+            newData.reverse()
             setList(newData);
           }
           else{
@@ -83,7 +85,9 @@ const Datatable = ({ columns }) => {
             setOpenSnackbar(false);
           }, 1000);
         } else {
-          setList(response.data);
+          const newData = response.data
+            newData.reverse()
+            setList(newData);
         }
       } catch (e) {
         throw new Error();
@@ -163,6 +167,13 @@ const Datatable = ({ columns }) => {
 
     try {
       const res = await axios.put(`/${path}/${id}`, body);
+      if (status === 1) {
+        await axios.put("/rooms/roomcancel/", {
+          id: idNumberRoom,
+          numberRoom: rowData.numberRoom,
+          dates: DFT.map((e) => moment(e).format()),
+        });
+      }
       if (status === 2) {
         await axios.put(`/rooms/availability/${idNumberRoom}`, {
           dates: DFT,
