@@ -13,22 +13,23 @@ import { useContext, useEffect, useState } from "react";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { format } from "date-fns";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
 import { AuthContext } from "../../context/AuthContext";
 import Slider from "../../img-slider/components/Slider";
 const Header = ({ type }) => {
+  const location = useLocation();
   const [destination, setDestination] = useState("");
   const [openDate, setOpenDate] = useState(false);
   const [dates, setDates] = useState([
     {
-      startDate: new Date(),
-      endDate: new Date(),
+      startDate:location.state?.dates?location.state.dates[0].startDate:new Date(),
+      endDate: location.state?.dates?location.state.dates[0].endDate:new Date(),
       key: "selection",
     },
   ]);
   const [openOptions, setOpenOptions] = useState(false);
-  const [options, setOptions] = useState({
+  const [options, setOptions] = useState(location.state?.options?location.state.options:{
     adult: 1,
     children: 0,
     room: 1,
@@ -83,6 +84,7 @@ const Header = ({ type }) => {
                   placeholder="Nhập nơi bạn muốn đến"
                   className="headerSearchInput"
                   onChange={(e) => setDestination(e.target.value)}
+                  defaultValue={location.state?.destination||""}
                 />
               </div>
               <div className="headerSearchItem">

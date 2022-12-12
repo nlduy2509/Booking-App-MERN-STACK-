@@ -16,7 +16,6 @@ import SortHotel from "./sorted/SortHotel";
 const ListData = () => {
   const location = useLocation();
   const [destination, setDestination] = useState(location.state.destination);
-  const [dates, setDates] = useState(location.state.dates);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
   const [min, setMin] = useState(undefined);
@@ -115,6 +114,8 @@ const ListData = () => {
   //   array_featured()
   // },[checkedFeatured])
 
+  console.log("location.state",location.state);
+
 
   return (
     <div>
@@ -163,20 +164,20 @@ const ListData = () => {
             {
               checkedRating.length===0 && checkedFeatured.length===0?allHotel.map((item) => {
                 console.log("step one")
-                return(<SearchItem dates={dates} item={item} key={item._id} />)
+                return(<SearchItem item={item} key={item._id} state={location.state} />)
               }      
               ):(
               (checkedRating.length>0 && checkedFeatured.length>0) ? 
                   hotelsFilter.map((item)=>{
                   console.log("step-two")
-                  return(<SearchItem dates={dates} item={item} key={item._id} />)
+                  return(<SearchItem item={item} key={item._id} state={location.state} />)
                   }
               ):(checkedRating.length>0? hotelsFilterRating.map((item)=>{
                 console.log("step-three")
-                return(<SearchItem dates={dates} item={item} key={item._id} />)
+                return(<SearchItem item={item} key={item._id} state={location.state} />)
               }):hotelsFilterFeatured.map((item)=>{
                 console.log("step-four")
-                return(<SearchItem dates={dates} item={item} key={item._id} />)
+                return(<SearchItem item={item} key={item._id} state={location.state} />)
               }))
               )
             }

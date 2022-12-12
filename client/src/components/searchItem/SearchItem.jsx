@@ -8,10 +8,10 @@ import HotelIcon from '@mui/icons-material/Hotel';
 import "./searchItem.css";
 import FormatPrice from "../Format/Format";
 
-const SearchItem = ({ item , dates}) => {
+const SearchItem = ({ item ,state}) => {
   const navigate= useNavigate()
   const handleClickSeeAvai=()=>{
-    navigate(`/hotels/${item._id}`,{state:{dates}})
+    navigate(`/hotels/${item._id}`,{state:state})
   }
   return (
     <div className="searchItem">

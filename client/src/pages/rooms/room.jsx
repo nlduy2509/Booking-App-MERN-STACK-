@@ -29,13 +29,16 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import MenuItem from "@mui/material/MenuItem";
 import { margin } from "@mui/system";
 
-import { BrowserRouter, useNavigate } from "react-router-dom";
+import { BrowserRouter, useLocation, useNavigate } from "react-router-dom";
 import { useContext } from "react";
 import Reservation from "../../components/reserve/Reserve";
 import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from '@mui/icons-material/Cancel';
 
+import moment from "moment"
+
 import { styled } from "@mui/material/styles";
+import { useEffect } from "react";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -46,12 +49,15 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 const RoomCard = (props) => {
+  const location = useLocation()
   const { user } = useContext(AuthContext);
   const [openModal, setOpenModal] = useState(false);
   const [openReservation, setOpenReservation] = useState(false);
   const [room, setRoom] = useState([]);
+  const [numberRoomFilter, setNumberRoomFilter] = useState([]);
   const [numberRoom, setNumberRoom] = useState("");
   const [dataReserve, setDataReserve] = useState([]);
+  const [checkDate,setCheckDate]=useState(false)
 
   const [openDetail, setOpenDetail] = useState(false);
 
@@ -69,6 +75,7 @@ const RoomCard = (props) => {
       navigate("/login");
     } else {
       setOpenModal(true);
+      setCheckDate(true)
       setRoom(e);
       console.log("numberRomm",numberRoom);
     }
@@ -97,8 +104,37 @@ const RoomCard = (props) => {
   const handleClickClose = () => {
     setOpenModal(false);
     setNumberRoom([]);
+    setRoom([])
+    setNumberRoomFilter([])
   };
 
+  const Check =()=>{
+    const datesChoose = location.state?.dates
+    const dateIn = moment(datesChoose[0].startDate).format("D")
+    const dateOut = moment(datesChoose[0].endDate).format('D')  
+    const dateRoomUn = room?.roomNumbers
+    for(let i of dateRoomUn){
+      const data = i
+      const check= data.unavailableDates.filter(e=>moment(e).format('D')===dateIn).length>0
+      const checkOut= data.unavailableDates.filter(e=>moment(e).format('D')===dateOut).length>0
+      if(check || checkOut){
+        console.log(Check);
+        continue
+      }else{
+        let newArray = numberRoomFilter
+        newArray.push(data)
+        setNumberRoomFilter(newArray)
+        setCheckDate(false)
+      }
+    }
+  }
+  useEffect(()=>{
+    if(checkDate){
+      Check()
+    }
+  },[checkDate])
+    console.log("room?.roomNumbers",room?.roomNumbers);
+    console.log("setNumberRoomFilter",numberRoomFilter);
   return (
     <Stack
       direction="column"
@@ -244,7 +280,7 @@ const RoomCard = (props) => {
                 }}
               >
                 <div style={{display:"flex", justifyContent:"flex-end", margin:"8px", cursor:"pointer"}}>
-                    <CancelIcon onClick={()=>setOpenModal(false)} color="error"/>
+                    <CancelIcon onClick={handleClickClose} color="error"/>
                   </div>
                   <h2>Mời chọn phòng</h2>
                   {/* <Select
@@ -268,14 +304,14 @@ const RoomCard = (props) => {
                 native
                 value={numberRoom}
                 onChange={handleChange}
-                defaultValue={room.roomNumbers[0]._id}
+                defaultValue={numberRoomFilter[0]?._id||""}
                 input={<OutlinedInput label="Phòng"/>}
               >
-                {room.roomNumbers.map((e)=>(
+                {numberRoomFilter.map((e)=>(
                   <option value={e._id}>{e.number}</option>
                 ))}
               </Select>
-                  <button style={{cursor:"pointer"}} onClick={handleClickChoose}>Chọn</button>
+                  <button style={{cursor:"pointer"}} onClick={Check}>Chọn</button>
 
               </Card>
               </Modal>
