@@ -1,4 +1,6 @@
 import moment from "moment"
+
+import FormatPrice from "./components/Format/Format";
 export const userColumns = [
   // { field: "_id", headerName: "ID", width: 250 },
   {
@@ -84,16 +86,26 @@ export const roomColumns = [
     width: 400,
   },
   {
+    field: "numberAdult",
+    headerName: "Người lớn",
+    width: 100,
+  },
+  {
+    field: "numberChild",
+    headerName: "Trẻ em",
+    width: 100,
+  },
+  {
+    field: "numberBed",
+    headerName: "Số giường",
+    width: 100,
+  },
+  {
     field: "price",
     headerName: "Giá",
     valueFormatter:params=>
-    {return params.value+".000 VNĐ"},
+    {return FormatPrice(params.value)},
     width: 150,
-  },
-  {
-    field: "maxPeople",
-    headerName: "Tối đa",
-    width: 100,
   },
 ];
 
@@ -157,11 +169,11 @@ export const reserveColumns = [
       const MonthOut = moment(params.row.dateCheckOut).format("M")
       if(MonthOut>MonthIn){
         return (
-          `${params.row.price * ((parseInt(dateOut)+30-parseInt(dateIn)+1))||0}.000 VNĐ`
+          FormatPrice(params.row.price * ((parseInt(dateOut)+30-parseInt(dateIn)+1))||0)
         );
       }else{
         return (
-          `${params.row.price * (parseInt(dateOut)-parseInt(dateIn)+1)||0}.000 VNĐ`
+          FormatPrice(params.row.price * (parseInt(dateOut)-parseInt(dateIn)+1)||0)
         );
       }
       

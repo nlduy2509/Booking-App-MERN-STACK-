@@ -52,7 +52,7 @@ const List = ({reservations}) => {
               <TableCell className="tableCell">{row.dateCheckIn}</TableCell>
               <TableCell className="tableCell">{row.dateCheckOut}</TableCell>
               <TableCell className="tableCell">
-                <span className={`status ${row.status.id===1?"waiting":"Approved"}`}>{row.status.name}</span>
+                <span className={`status ${row.status.id===1?"waiting":(row.status.id===3?"cancel":"Approved")}`}>{row.status.name}</span>
               </TableCell>
             </TableRow>
           ))}

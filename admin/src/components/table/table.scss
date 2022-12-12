@@ -24,5 +24,9 @@
       color: goldenrod;
       background-color: rgba(189, 189, 3, 0.103);
     }
+    &.cancel {
+      color: red;
+      background-color: rgba(196, 30, 30, 0.103);
+    }
   }
 }
