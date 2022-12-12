@@ -35,8 +35,6 @@ import Reservation from "../../components/reserve/Reserve";
 import CheckIcon from "@mui/icons-material/Check";
 import CancelIcon from '@mui/icons-material/Cancel';
 
-import moment from "moment"
-
 import { styled } from "@mui/material/styles";
 import { useEffect } from "react";
 
@@ -57,17 +55,35 @@ const RoomCard = (props) => {
   const [numberRoomFilter, setNumberRoomFilter] = useState([]);
   const [numberRoom, setNumberRoom] = useState("");
   const [dataReserve, setDataReserve] = useState([]);
-  const [checkDate,setCheckDate]=useState(false)
 
   const [openDetail, setOpenDetail] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const { data, dataHotel, dates } = props;
 
   const navigate = useNavigate();
 
+  const handleOpen = (i) => {
+    setSlideNumber(i);
+    setOpen(true);
+  };
+
+  const handleMove = (direction) => {
+    let newSlideNumber;
+
+    if (direction === "l") {
+      newSlideNumber = slideNumber === 0 ? 5 : slideNumber - 1;
+    } else {
+      newSlideNumber = slideNumber === 5 ? 0 : slideNumber + 1;
+    }
+
+    setSlideNumber(newSlideNumber)
+  };
+
   const handleOnclickViewDetail = (data) => {
-      setOpenDetail(true);
-    
+    setDataDetail(data)
+    setOpenDetail(true);
+    console.log("first",data)
   };
   
   const handleOnclickReverse=(e)=>{
@@ -180,7 +196,7 @@ const RoomCard = (props) => {
                     sx={{ justifyContent: "center" }}
                     >
                     <Button
-                    onClick={() => handleOnclickViewDetail()}
+                      onClick={() => handleOnclickViewDetail(e)}
                       sx={{
                         bgcolor: "orange",
                         color: "black",
@@ -189,7 +205,6 @@ const RoomCard = (props) => {
                         },
                       }}
                       size="small"
-                      // onClick={() => setOpenDetail(true)}
                     >
                       Xem chi tiết
                     </Button>
@@ -282,7 +297,7 @@ const RoomCard = (props) => {
                 <div style={{display:"flex", justifyContent:"flex-end", margin:"8px", cursor:"pointer"}}>
                     <CancelIcon onClick={handleClickClose} color="error"/>
                   </div>
-                  <h2>Mời chọn phòng</h2>
+                  <h2 className="h2-reverse">Mời chọn phòng:</h2>
                   {/* <Select
                   color="success"
                   sx={{ width: "150px" }}
@@ -304,14 +319,14 @@ const RoomCard = (props) => {
                 native
                 value={numberRoom}
                 onChange={handleChange}
-                defaultValue={numberRoomFilter[0]?._id||""}
+                defaultValue={room.roomNumbers[0]._id}
                 input={<OutlinedInput label="Phòng"/>}
               >
-                {numberRoomFilter.map((e)=>(
+                {room.roomNumbers.map((e)=>(
                   <option value={e._id}>{e.number}</option>
                 ))}
               </Select>
-                  <button style={{cursor:"pointer"}} onClick={Check}>Chọn</button>
+                  <button style={{cursor:"pointer"}} onClick={handleClickChoose}>Chọn</button>
 
               </Card>
               </Modal>
@@ -345,27 +360,78 @@ const RoomCard = (props) => {
                 }}
               >
               <Grid container>
-                <Grid item xs={8}>
+                <Grid item xs={9}>
+                {open && (
+                  <div className="slider">
+                    <FontAwesomeIcon
+                      icon={faCircleXmark}
+                      className="close"
+                      onClick={() => setOpen(false)}
+                    />
+                    <FontAwesomeIcon
+                      icon={faCircleArrowLeft}
+                      className="arrow"
+                      onClick={() => handleMove("l")}
+                    />
+                    <div className="sliderWrapper">
+                      <img
+                        src={dataDetail.photos[slideNumber]}
+                        alt=""
+                        className="sliderImg"
+                      />
+                    </div>
+                      <FontAwesomeIcon
+                        icon={faCircleArrowRight}
+                        className="arrow"
+                        onClick={() => handleMove("r")}
+                      />
+                  </div>
+                )}
                   <div className="hotelImages">
-                    {data.map((e) => (
-                      e.photo?.map((photo,i)=>(
-                        <div className="hotelImgWrapper" key={i}>
+                    {dataDetail.photos?.map((photo, i) => (
+                      <div className="hotelImgWrapper" key={i}>
                         <img
-                          // onClick={() => handleOpen(i)}
-                          src={photo}
-                          alt=""
-                          className="hotelImg"
+                        onClick={() => handleOpen(i)}
+                        src={photo}
+                        alt=""
+                        className="hotelImg"
                         />
                       </div>
-                      ))
                     ))}
                   </div>
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={3}>
                   <div style={{display:"flex", justifyContent:"flex-end", margin:"8px", cursor:"pointer"}}>
                     <CancelIcon onClick={()=>setOpenDetail(false)} color="error"/>
                   </div>
-                  <h1>đây là nội dung</h1>
+                  <CardContent>
+                    <h3>Thông tin phòng</h3>
+                    <Typography variant="body" color="text.secondary" sx={{color:"black", display:"flex", flexDirection: "column",marginLeft:"10px"}}>
+                      <span>Diện tích : {dataDetail.distance} m2</span>
+                      <span>Số người tối đa : {dataDetail.maxPeople}</span>
+                    </Typography>
+                  </CardContent>
+                  <CardContent>
+                    <h3>Tiện nghi phòng</h3>
+                    <Typography variant="body" color="text.secondary" sx={{color:"black", display:"flex",flexDirection: "column",marginLeft:"10px"}}>
+                      {dataDetail.featured.map((e)=>{
+                        return(<span>{e.name}</span>)
+                      })}
+                    </Typography>
+                  </CardContent>
+                  <CardContent>
+                  <h3>Chính sách phòng</h3>
+                    <Typography variant="body" color="text.secondary" sx={{color:"black", display:"flex",flexDirection: "column",marginLeft:"10px"}}>
+                      {dataDetail.roomPolicy.map((e)=>{
+                        return(<span>{e.name}</span>)
+                      })}
+                    </Typography>
+                  </CardContent>
+                  <CardContent>
+                    <Typography variant="body" color="text.secondary" sx={{fontWeight:"700", fontSize:"120%", color:"orange"}}>
+                      Giá : {FormatPrice(dataDetail.price)} / phòng / đêm
+                    </Typography>
+                  </CardContent>
                 </Grid>
               </Grid>
 
