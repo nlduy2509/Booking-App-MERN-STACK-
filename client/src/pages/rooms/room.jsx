@@ -37,6 +37,13 @@ import CancelIcon from '@mui/icons-material/Cancel';
 
 import { styled } from "@mui/material/styles";
 import { useEffect } from "react";
+import moment from "moment"
+import {
+  faCircleArrowLeft,
+  faCircleArrowRight,
+  faLocationDot,
+} from "@fortawesome/free-solid-svg-icons";
+
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -58,6 +65,9 @@ const RoomCard = (props) => {
 
   const [openDetail, setOpenDetail] = useState(false);
   const [open, setOpen] = useState(false);
+  const [slideNumber,setSlideNumber] =  useState(0)
+  const [dataDetail,setDataDetail] =  useState()
+  const [checkDate,setCheckDate] =  useState()
 
   const { data, dataHotel, dates } = props;
 
@@ -105,9 +115,9 @@ const RoomCard = (props) => {
   const handleClickChoose = () => {
     let numberRoomChoose
     if (!numberRoom) {
-      numberRoomChoose =  room.roomNumbers[0]
+      numberRoomChoose =  numberRoomFilter[0]
     } else {
-      numberRoomChoose =  room.roomNumbers.find(e=>e._id===numberRoom)
+      numberRoomChoose =  room.roomNumbers?.find(e=>e._id===numberRoom)
     }
     const newDataReserve = [dataHotel];
       newDataReserve.push(room);
@@ -149,6 +159,7 @@ const RoomCard = (props) => {
       Check()
     }
   },[checkDate])
+
     console.log("room?.roomNumbers",room?.roomNumbers);
     console.log("setNumberRoomFilter",numberRoomFilter);
   return (
@@ -319,14 +330,14 @@ const RoomCard = (props) => {
                 native
                 value={numberRoom}
                 onChange={handleChange}
-                defaultValue={room.roomNumbers[0]._id}
+                defaultValue={numberRoomFilter[0]?._id}
                 input={<OutlinedInput label="Phòng"/>}
               >
-                {room.roomNumbers.map((e)=>(
+                {numberRoomFilter.map((e)=>(
                   <option value={e._id}>{e.number}</option>
                 ))}
               </Select>
-                  <button style={{cursor:"pointer"}} onClick={handleClickChoose}>Chọn</button>
+                  <button disabled={numberRoomFilter.length>0?false:true} style={{cursor:"pointer"}} onClick={handleClickChoose}>Chọn</button>
 
               </Card>
               </Modal>

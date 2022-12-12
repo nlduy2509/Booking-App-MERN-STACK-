@@ -19,20 +19,20 @@ export default function Reservation(props) {
 
   const handleClickConfirm = async () => {
     const body = {
-      idUser:dataReserve[4]._id,
-      nameReservator: dataReserve[4].fullName,
-      phoneReservator: dataReserve[4].phone,
-      mailReservator: dataReserve[4].email,
-      idHotel: dataReserve[0]._id,
-      nameHotel: dataReserve[0].name,
-      address: dataReserve[0].address,
-      idRoom: dataReserve[1]._id,
-      nameRoom: dataReserve[1].title,
-      price: dataReserve[1].price,
-      dateCheckIn: moment(dataReserve[3][0].startDate).format(),
-      dateCheckOut: moment(dataReserve[3][0].endDate).format(),
-      idNumberRoom: dataReserve[2]._id,
-      numberRoom: dataReserve[2].number,
+      idUser:dataReserve[4]?._id,
+      nameReservator: dataReserve[4]?.fullName,
+      phoneReservator: dataReserve[4]?.phone,
+      mailReservator: dataReserve[4]?.email,
+      idHotel: dataReserve[0]?._id,
+      nameHotel: dataReserve[0]?.name,
+      address: dataReserve[0]?.address,
+      idRoom: dataReserve[1]?._id,
+      nameRoom: dataReserve[1]?.title,
+      price: dataReserve[1]?.price,
+      dateCheckIn: moment(dataReserve[3][0]?.startDate).format(),
+      dateCheckOut: moment(dataReserve[3][0]?.endDate).format(),
+      idNumberRoom: dataReserve[2]?._id,
+      numberRoom: dataReserve[2]?.number,
       status:{ id: 1, name: "Chờ xác nhận" }
     };
     console.log("body",body);
@@ -61,24 +61,24 @@ export default function Reservation(props) {
   };
   console.log("dataReserve",dataReserve);
   useEffect(() => {
-    const dateIn = moment(dataReserve[3][0].startDate).format("D");
-    const MonthIn = moment(dataReserve[3][0].startDate).format("M");
-    const dateOut = moment(dataReserve[3][0].endDate).format("D");
-    const MonthOut = moment(dataReserve[3][0].endDate).format("M");
-    const Year = moment(dataReserve[3][0].endDate).format("YYYY");
+    const dateIn = moment(dataReserve[3][0]?.startDate).format("D");
+    const MonthIn = moment(dataReserve[3][0]?.startDate).format("M");
+    const dateOut = moment(dataReserve[3][0]?.endDate).format("D");
+    const MonthOut = moment(dataReserve[3][0]?.endDate).format("M");
+    const Year = moment(dataReserve[3][0]?.endDate).format("YYYY");
 
 
     if (MonthOut > MonthIn) {
-      setTotal(FormatPrice(dataReserve[1].price * (dateOut + 30 - dateIn + 1)));
-      // setTotal(`${dataReserve[1].price * (dateOut + 30 - dateIn + 1)}.000 VNĐ`);
+      setTotal(FormatPrice(dataReserve[1]?.price * (dateOut + 30 - dateIn + 1)));
+      // setTotal(`${dataReserve[1]?.price * (dateOut + 30 - dateIn + 1)}.000 VNĐ`);
     } else {
       // const DFT = [];
       // for (let i = parseInt(dateIn); i <= parseInt(dateOut); i++) {
       //   DFT.push(`${i}/${MonthIn}/${Year}`);
       // }
       // setDateFromTo(DFT);
-      setTotal(FormatPrice(dataReserve[1].price * (dateOut - dateIn + 1)));
-      // setTotal(`${dataReserve[1].price * (dateOut - dateIn + 1)}.000 VNĐ`);
+      setTotal(FormatPrice(dataReserve[1]?.price * (dateOut - dateIn + 1)));
+      // setTotal(`${dataReserve[1]?.price * (dateOut - dateIn + 1)}.000 VNĐ`);
     }
   }, []);
    console.log("dateFromTo",dataReserve[4]);
@@ -120,17 +120,17 @@ export default function Reservation(props) {
                     <input
                       disabled="true"
                       type="input"
-                      value={dataReserve[4].fullName}
+                      value={dataReserve[4]?.fullName}
                       onChange={() => {}}
                     />
                   </div>
                   <div className="formInput">
                     <label>Số điện thoại</label>
                     <input
-                      disabled= {dataReserve[4].phone===""?false:true}
+                      disabled= {dataReserve[4]?.phone===""?false:true}
                       required="true"
                       type="input"
-                      value={dataReserve[4].phone}
+                      value={dataReserve[4]?.phone}
                       onChange={() => {}}
                     />
                   </div>
@@ -139,7 +139,7 @@ export default function Reservation(props) {
                     <input
                       disabled="true"
                       type="input"
-                      value={dataReserve[4].email}
+                      value={dataReserve[4]?.email}
                       onChange={() => {}}
                     />
                   </div>
@@ -148,7 +148,7 @@ export default function Reservation(props) {
                     <input
                       disabled="true"
                       type="text"
-                      value={dataReserve[0].name}
+                      value={dataReserve[0]?.name}
                     />
                   </div>
                   <div className="formInput">
@@ -156,7 +156,7 @@ export default function Reservation(props) {
                     <input
                       disabled="true"
                       type="Text"
-                      value={dataReserve[1].title}
+                      value={dataReserve[1]?.title}
                     />
                   </div>
                   <div className="formInput">
@@ -164,7 +164,7 @@ export default function Reservation(props) {
                     <input
                       disabled="true"
                       type="text"
-                      value={dataReserve[2].number}
+                      value={dataReserve[2]?.number}
                     />
                   </div>
                   <div className="formInput">
@@ -172,7 +172,7 @@ export default function Reservation(props) {
                     <input
                       disabled="true"
                       type="text"
-                      value={dataReserve[0].address}
+                      value={dataReserve[0]?.address}
                     />
                   </div>
                   <div className="formInput">
@@ -180,7 +180,7 @@ export default function Reservation(props) {
                     <input
                       disabled="true"
                       type="text"
-                      value={moment(dataReserve[3][0].startDate).format(
+                      value={moment(dataReserve[3][0]?.startDate).format(
                         "DD/MM/YYYY"
                       )}
                     />
@@ -190,7 +190,7 @@ export default function Reservation(props) {
                     <input
                       disabled="true"
                       type="text"
-                      value={moment(dataReserve[3][0].endDate).format(
+                      value={moment(dataReserve[3][0]?.endDate).format(
                         "DD/MM/YYYY"
                       )}
                     />
@@ -200,7 +200,7 @@ export default function Reservation(props) {
                     <input
                       disabled="true"
                       type="text"
-                      value={FormatPrice(dataReserve[1].price)}
+                      value={FormatPrice(dataReserve[1]?.price)}
                       // value={`${dataReserve[1].price}.000 VNĐ`}
                     />
                   </div>
