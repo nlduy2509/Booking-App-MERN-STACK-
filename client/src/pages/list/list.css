@@ -25,15 +25,12 @@
   margin-top: 55px;
   margin-bottom: 24px;
   /* flex: 2; */
-  background-color: aqua;
+  border: 3px solid #febb02;
   padding: 10px;
   border-radius: 10px;
   top: 10px;
-  height: 200px;
+  height: 125px;
   color: black;
-}
-.filter{
-  /* margin: 8px */
 }
 
 .lsTitle{

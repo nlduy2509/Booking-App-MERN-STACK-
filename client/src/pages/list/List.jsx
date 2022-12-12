@@ -11,6 +11,7 @@ import useFetch from "../../hooks/useFetch";
 import { useEffect } from "react";
 import axios from "axios";
 import FilterHotel from "./filter/FilterHotel";
+import SortHotel from "./sorted/SortHotel";
 
 const ListData = () => {
   const location = useLocation();
@@ -28,6 +29,7 @@ const ListData = () => {
   const [checkedFeatured, setCheckedFeatured] = useState([]);
   const [hotelsFilterRating, setHotelFilterRating] = useState([])
   const [hotelsFilterFeatured, setHotelFilterFeatured] = useState([])
+  const [checkedSorting, setCheckedSorting] = useState([])
 
   // const { data, loading, error, reFetch } = useFetch(
   //   `/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
@@ -44,6 +46,13 @@ const ListData = () => {
   const handleClick = () => {
     // reFetch();
   };
+
+  const asc = (a,b) => a.minPrice-b.minPrice
+
+  const sorting = (array) =>{
+    array.sort(asc)
+  }
+
   const array_is_unique = (arrayA, arrayB) =>{
     let array = []
     for (let index = 0; index < arrayA.length; index++) {
@@ -56,11 +65,55 @@ const ListData = () => {
     }
     setHotelsFilter(array)
   }
+
+  const array_is_one = () =>{
+    if(checkedSorting.length > 0){
+      if(checkedSorting[0] === "tăng dần"){
+        sorting(allHotel)
+      }
+      else{
+        sorting(allHotel)
+        allHotel.reverse()
+      }
+    }
+  }
+
+  // const array_rating = () =>{
+  //   if(checkedSorting.length > 0){
+  //     if(checkedSorting[0] === "tăng dần"){
+  //       sorting(hotelsFilterRating)
+  //     }
+  //     else{
+  //       sorting(hotelsFilterRating)
+  //       hotelsFilterRating.reverse()
+  //     }
+  //   }
+  // }
+
+  // const array_featured = () =>{
+  //   if(checkedSorting.length > 0){
+  //     if(checkedSorting[0] === "tăng dần"){
+  //       sorting(hotelsFilterFeatured)
+  //     }
+  //     else{
+  //       sorting(hotelsFilterFeatured)
+  //       hotelsFilterFeatured.reverse()
+  //     }
+  //   }
+  // }
+
   useEffect(()=>{
     array_is_unique(hotelsFilterRating,hotelsFilterFeatured)
+    array_is_one()
   },[checkedFeatured,checkedRating])
- 
 
+  // useEffect(()=>{
+  //   array_rating()
+  // },[checkedRating])
+
+  // useEffect(()=>{
+  //   array_featured()
+  // },[checkedFeatured])
 
 
   return (
@@ -71,11 +124,21 @@ const ListData = () => {
         <div className="listWrapper">
           <div className="list">
             <div className="listSearch">
-              Sắp xếp kết quả
+              <SortHotel
+                checkedSorting={checkedSorting}
+                setCheckedSorting={setCheckedSorting}
+                allHotel={allHotel}
+                checkedRating={checkedRating}
+                checkedFeatured={checkedFeatured}
+                hotelsFilter={hotelsFilter}
+                hotelsFilterRating={hotelsFilterRating}
+                hotelsFilterFeatured={hotelsFilterFeatured}
+               
+              />
             </div>
              
             <div className="filter">
-              <h2 style={{ marginBottom: "8px" }}>Chọn lọc theo: </h2>
+              {/* <h2 style={{ marginBottom: "8px" }}>Chọn lọc theo: </h2> */}
               <FilterHotel
                 allHotel={allHotel}
                 checkedRating={checkedRating}
@@ -88,6 +151,8 @@ const ListData = () => {
                 setHotelFilterRating={setHotelFilterRating}
                 hotelsFilterFeatured={hotelsFilterFeatured}
                 setHotelFilterFeatured={setHotelFilterFeatured}
+                checkedSorting={checkedSorting}
+                setCheckedSorting={setCheckedSorting}
               />
             </div>
           </div>

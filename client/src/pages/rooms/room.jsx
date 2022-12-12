@@ -98,11 +98,11 @@ const RoomCard = (props) => {
     >
       {data.map((e) => (
         <>
-          <Box key={e._id} sx={{ flexGrow: 1, backgroundColor: "#BABABA" }}>
+          <Box key={e._id} sx={{ flexGrow: 1 , border: "3px solid #febb02", borderRadius: "10px",padding: "10px"}}>
             <h2 style={{ marginBottom: "5px" }}>{e.title}</h2>
             <Grid container spacing={0}>
               <Grid item xs={4} mb={4}>
-                <Card sx={{ width: 300, margin: "0 16px" }}>
+                <Card sx={{ width: 300, margin: "0 16px" ,border: "1px solid #febb02", borderRadius: "10px"}}>
                   <CardMedia
                     component="img"
                     height="140"
@@ -151,22 +151,24 @@ const RoomCard = (props) => {
                 </Card>
               </Grid>
               <Grid item xs={8} mb={4}>
-                <Card sx={{ width: 655.2, margin: "0 16px" }}>
-                  <CardMedia
+                <Card sx={{ width: 640, mr: "10px",padding:"10px",border: "1px solid #febb02", borderRadius: "10px" }}>
+                  {/* <CardMedia
                     component="img"
                     height="140"
                     src="https://cf.bstatic.com/xdata/images/hotel/max1280x900/261707389.jpg?k=52156673f9eb6d5d99d3eed9386491a0465ce6f3b995f005ac71abc192dd5827&o=&hp=1"
                     alt="green iguana"
-                  />
-                  <CardContent>
-                    <Typography variant="body2" color="text.secondary">
+                  /> */}
+                  <CardContent sx={{display:"flex", padding:"10px"}}>
+                    <Typography variant="body2" color="text.secondary" sx={{mr:"10px",fontWeight:"700"}}>
                       <BedIcon></BedIcon>
                       <span>{e.numberBed} giường</span>
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="text.secondary" sx={{fontWeight:"700"}}>
                       <PeopleIcon></PeopleIcon>
                       Tối đa {e.numberAdult} người lớn, {e.numberChild} trẻ em
                     </Typography>
+                  </CardContent>
+                  <CardContent>
                     <Typography variant="body" color="text.secondary">
                       {e.roomPolicy?.map((i) => (
                         <Stack direction="row" spacing={2} marginBottom="3px">
@@ -180,8 +182,10 @@ const RoomCard = (props) => {
                         </Stack>
                       ))}
                     </Typography>
-                    <Typography variant="body" color="text.secondary">
-                      Giá : {FormatPrice(e.price)}
+                  </CardContent>
+                  <CardContent>
+                    <Typography variant="body" color="text.secondary" sx={{fontWeight:"700", fontSize:"120%", color:"orange", display:"flex",flexDirection:"row-reverse"}}>
+                      Giá : {FormatPrice(e.price)} / phòng / đêm
                     </Typography>
                   </CardContent>
                   <CardActions
@@ -230,7 +234,20 @@ const RoomCard = (props) => {
               >
               <Grid container>
                 <Grid item xs={8}>
-                  <h1>đây là hình ảnh</h1>
+                  <div className="hotelImages">
+                    {data.map((e) => (
+                      e.photo?.map((photo,i)=>(
+                        <div className="hotelImgWrapper" key={i}>
+                        <img
+                          // onClick={() => handleOpen(i)}
+                          src={photo}
+                          alt=""
+                          className="hotelImg"
+                        />
+                      </div>
+                      ))
+                    ))}
+                  </div>
                 </Grid>
                 <Grid item xs={4}>
                   <div style={{display:"flex", justifyContent:"flex-end", margin:"8px", cursor:"pointer"}}>

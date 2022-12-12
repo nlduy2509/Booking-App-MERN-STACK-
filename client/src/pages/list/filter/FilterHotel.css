@@ -1,0 +1,17 @@
+.rating{
+    display: flex;
+    flex-direction: column;
+    border: 3px solid #febb02;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.featuredHotel{
+    display: flex;
+    flex-direction: column;
+    border: 3px solid #febb02;
+    border-radius: 10px;
+    padding: 10px;
+    width: 90.5%;
+    margin-top: 25px;
+}

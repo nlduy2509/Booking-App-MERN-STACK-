@@ -8,6 +8,8 @@ import IconButton from "@mui/material/IconButton";
 import CommentIcon from "@mui/icons-material/Comment";
 import { useEffect } from "react";
 import { useState } from "react";
+import el from "date-fns/esm/locale/el/index.js";
+import "./FilterHotel.css"
 
 const FilterHotel = (props) => {
   const {
@@ -22,10 +24,13 @@ const FilterHotel = (props) => {
     hotelsFilterRating,
     setHotelFilterRating,
     hotelsFilterFeatured,
-    setHotelFilterFeatured
+    setHotelFilterFeatured,
+    checkedSorting,
+    setCheckedSorting
   } = props;
 
   const [oldData, setOldData] = useState([])
+
  
   const featuredHotel = [
     {
@@ -172,11 +177,11 @@ const FilterHotel = (props) => {
       newChecked = checkedFeatured.concat(value);
     }
     setCheckedFeatured(newChecked);
-
 }
  
   return (
     <>
+      <div className="rating">
       <h3>Xếp hạng sao</h3>
       <List
         sx={{
@@ -214,6 +219,8 @@ const FilterHotel = (props) => {
           );
         })}
       </List>
+      </div>
+      <div className="featuredHotel">
       <h3>Tiện ích</h3>
       <List
         sx={{
@@ -254,6 +261,7 @@ const FilterHotel = (props) => {
           );
         })}
       </List>
+      </div>
     </>
   );
 };
