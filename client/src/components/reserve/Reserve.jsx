@@ -95,8 +95,8 @@ export default function Reservation(props) {
       <Card
         sx={{
           position: "absolute",
-          width: "70vw",
-          height: "70vh",
+          width: "75vw",
+          height: "75vh",
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",

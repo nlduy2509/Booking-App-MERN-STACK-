@@ -18,8 +18,8 @@
   font-weight: 500;
   color: white;
   font-size: 120%;
-  position: relative;
-  top:10px
+  position: absolute;
+  top:12px
 }
 
 .navButton{
