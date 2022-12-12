@@ -48,7 +48,7 @@ const Item = styled(Paper)(({ theme }) => ({
 const RoomCard = (props) => {
   const { user } = useContext(AuthContext);
   const [openModal, setOpenModal] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [openReservation, setOpenReservation] = useState(false);
   const [room, setRoom] = useState([]);
   const [numberRoom, setNumberRoom] = useState("");
   const [dataReserve, setDataReserve] = useState([]);
@@ -59,30 +59,40 @@ const RoomCard = (props) => {
 
   const navigate = useNavigate();
 
-  const handleOnclickReserve = (data) => {
+  const handleOnclickViewDetail = (data) => {
+      setOpenDetail(true);
+    
+  };
+  
+  const handleOnclickReverse=(e)=>{
     if (!user) {
       navigate("/login");
     } else {
       setOpenModal(true);
-      setRoom(data);
+      setRoom(e);
+      console.log("numberRomm",numberRoom);
     }
-  };
+  }
+
   const handleChange = (event) => {
     setNumberRoom(event.target.value);
   };
 
-  const handleClick = () => {
-    if (numberRoom.length === 0) {
-      console.log("Chưa có phòng");
+
+  const handleClickChoose = () => {
+    let numberRoomChoose
+    if (!numberRoom) {
+      numberRoomChoose =  room.roomNumbers[0]
     } else {
-      const newDataReserve = [dataHotel];
+      numberRoomChoose =  room.roomNumbers.find(e=>e._id===numberRoom)
+    }
+    const newDataReserve = [dataHotel];
       newDataReserve.push(room);
-      newDataReserve.push(numberRoom);
+      newDataReserve.push(numberRoomChoose);
       newDataReserve.push(dates);
       newDataReserve.push(user);
       setDataReserve(newDataReserve);
-      setOpen(true);
-    }
+      setOpenReservation(true);
   };
   const handleClickClose = () => {
     setOpenModal(false);
@@ -132,9 +142,9 @@ const RoomCard = (props) => {
                   </CardContent>
                   <CardActions
                     sx={{ justifyContent: "center" }}
-                    onClick={() => handleOnclickReserve(e)}
-                  >
+                    >
                     <Button
+                    onClick={() => handleOnclickViewDetail()}
                       sx={{
                         bgcolor: "orange",
                         color: "black",
@@ -143,7 +153,7 @@ const RoomCard = (props) => {
                         },
                       }}
                       size="small"
-                      onClick={() => setOpenDetail(true)}
+                      // onClick={() => setOpenDetail(true)}
                     >
                       Xem chi tiết
                     </Button>
@@ -190,8 +200,8 @@ const RoomCard = (props) => {
                   </CardContent>
                   <CardActions
                     sx={{ justifyContent: "center" }}
-                    onClick={() => handleOnclickReserve(e)}
-                  >
+                      onClick={() => handleOnclickReverse(e)}
+                    >
                     <Button
                       sx={{
                         justifyContent: "center",
@@ -212,6 +222,72 @@ const RoomCard = (props) => {
           </Box>     
         </>
       ))}
+
+            {
+              openModal && <Modal
+              aria-labelledby="edit-modal-title"
+              aria-describedby="edit-modal-description"
+              open={true}
+              BackdropComponent={Backdrop}
+              BackdropProps={{
+                timeout: 500,
+              }}
+            >
+              <Card
+                sx={{
+                  position: "absolute",
+                  width: "20vw",
+                  height: "20vh",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translate(-50%, -50%)",
+                }}
+              >
+                <div style={{display:"flex", justifyContent:"flex-end", margin:"8px", cursor:"pointer"}}>
+                    <CancelIcon onClick={()=>setOpenModal(false)} color="error"/>
+                  </div>
+                  <h2>Mời chọn phòng</h2>
+                  {/* <Select
+                  color="success"
+                  sx={{ width: "150px" }}
+                  labelId="demo-simple-select-required-label"
+                  id="demo-simple-select-required"
+                  placeholder="Chọn trạng thái"
+                  value={numberRoom._id}
+                  defaultValue={room.roomNumbers[0]._id}
+                  onChange={handleChange}
+                >
+                  {room.roomNumbers.map((e, i) => (
+                    <MenuItem key={i} value={e._id}>
+                      {e.name}
+                    </MenuItem>
+                  ))}
+                </Select> */}
+                  <Select
+                  sx={{margin:"8px", width:"150px"}}
+                native
+                value={numberRoom}
+                onChange={handleChange}
+                defaultValue={room.roomNumbers[0]._id}
+                input={<OutlinedInput label="Phòng"/>}
+              >
+                {room.roomNumbers.map((e)=>(
+                  <option value={e._id}>{e.number}</option>
+                ))}
+              </Select>
+                  <button style={{cursor:"pointer"}} onClick={handleClickChoose}>Chọn</button>
+
+              </Card>
+              </Modal>
+            }
+
+            {
+              openReservation && (
+                <Reservation open={openReservation} setOpen={setOpenReservation} dataReserve={dataReserve} setOpenModal={setOpenModal}/>
+              )
+            }
+
+                      
             {
               openDetail && <Modal
               aria-labelledby="edit-modal-title"
@@ -259,8 +335,7 @@ const RoomCard = (props) => {
 
               </Card>
               </Modal>
-            }
-          
+            }         
     </Stack>
   );
 };

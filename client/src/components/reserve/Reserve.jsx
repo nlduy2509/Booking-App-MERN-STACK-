@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Snackbar from "@mui/material/Snackbar";
+import FormatPrice from "../Format/Format";
 // ----------------------------------------------------------------------
 
 export default function Reservation(props) {
@@ -68,14 +69,16 @@ export default function Reservation(props) {
 
 
     if (MonthOut > MonthIn) {
-      setTotal(`${dataReserve[1].price * (dateOut + 30 - dateIn + 1)}.000 VNĐ`);
+      setTotal(FormatPrice(dataReserve[1].price * (dateOut + 30 - dateIn + 1)));
+      // setTotal(`${dataReserve[1].price * (dateOut + 30 - dateIn + 1)}.000 VNĐ`);
     } else {
       // const DFT = [];
       // for (let i = parseInt(dateIn); i <= parseInt(dateOut); i++) {
       //   DFT.push(`${i}/${MonthIn}/${Year}`);
       // }
       // setDateFromTo(DFT);
-      setTotal(`${dataReserve[1].price * (dateOut - dateIn + 1)}.000 VNĐ`);
+      setTotal(FormatPrice(dataReserve[1].price * (dateOut - dateIn + 1)));
+      // setTotal(`${dataReserve[1].price * (dateOut - dateIn + 1)}.000 VNĐ`);
     }
   }, []);
    console.log("dateFromTo",dataReserve[4]);
@@ -197,7 +200,8 @@ export default function Reservation(props) {
                     <input
                       disabled="true"
                       type="text"
-                      value={`${dataReserve[1].price}.000 VNĐ`}
+                      value={FormatPrice(dataReserve[1].price)}
+                      // value={`${dataReserve[1].price}.000 VNĐ`}
                     />
                   </div>
                   <div className="formInput">
